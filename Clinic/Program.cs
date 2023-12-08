@@ -6,16 +6,14 @@ listener.Prefixes.Add("http://*:8080/");
 
 listener.Start();
 
-Console.WriteLine("App started");
 
 while (true)
 {
     var context = await listener.GetContextAsync();
     using var writer = new StreamWriter(context.Response.OutputStream);
-    Console.WriteLine("p1");
 
 
-    var endpoint = context.Request.RawUrl.Split("/", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+    var endpoint = context?.Request?.RawUrl?.Split("/", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
 
 
@@ -36,5 +34,3 @@ while (true)
             break;
     }
 }
-
-Console.WriteLine("App ended");
