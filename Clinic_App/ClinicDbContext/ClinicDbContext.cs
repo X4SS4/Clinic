@@ -15,7 +15,7 @@ public class ClinicDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        string connectionString = $"Server=localhost;Database=ClinicDB;Trusted_Connection=True;MultipleActiveResultSets=true;Encrypt=False;";
+        string connectionString = "Server=localhost;Database=ClinicDB;Integrated Security=True;MultipleActiveResultSets=true;TrustServerCertificate=True";
         optionsBuilder.UseSqlServer(connectionString);
         base.OnConfiguring(optionsBuilder);
     }
