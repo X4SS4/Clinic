@@ -1,6 +1,9 @@
-﻿public class Ward : Room
+﻿using Clinic.Models.Persons;
+
+public class Ward : Room
 {
     public int Number { get; set; }
     public int PatientCapacity { get; set; }
     public bool IsReanimation { get; set; }
+    public List<Patient>? Patients { get; set; }
 }
