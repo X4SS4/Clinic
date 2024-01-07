@@ -1,9 +1,8 @@
 namespace Clinic_App.Models.BaseModels;
-
-
+using System.ComponentModel.DataAnnotations;
 public class Person
 {
-    // public UniqueId Id { get; set; }
+    [Key]
     public int Id { get; set; }
     public required string? FIN { get; set; }
     public string? FirstName { get; set; }

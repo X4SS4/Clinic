@@ -1,6 +1,4 @@
 namespace Clinic_App.Models.Rooms;
-
-using System.ComponentModel.DataAnnotations;
 using Clinic_App.Models.BaseModels;
 using Clinic_App.Models.Persons;
 

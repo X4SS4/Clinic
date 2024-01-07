@@ -4,7 +4,7 @@ using Clinic_App.Models.Persons.StaffEntities;
 
 public class Staff : Person
 {
-    public required StaffContract contract { get; set; }
+    public required StaffContract Contract { get; set; }
 }
 
 
