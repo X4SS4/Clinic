@@ -1,49 +1,27 @@
-﻿
+﻿using Clinic_App.Controllers.ClinicControllers.PersonControllers;
+using Clinic_App.Controllers.ClinicControllers.RoomControllers;
+using Clinic_App.Server;
 
-using Clinic_App.Clinic_db_ef;
-using Clinic_App.Models.Persons;
-using Microsoft.EntityFrameworkCore;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Text.Json;
+//Type[] coll = null;
+//var controllerType = Assembly.GetExecutingAssembly()
+//       .GetTypes()
+//       .Where(t => {
+//           if(t.BaseType == typeof(BaseController))
+//           {
+//               coll?.Append(t.GetType());
+//               return true;
+//           }
+//           return false;           
+//       });
 
+var server = new ClinicHttpServer(typeof(StaffController), 
+    typeof(PatientController), 
+    typeof(CabinetController), 
+    typeof(WardController));
 
+server.Start("http://localhost:8080/");
 
+Console.WriteLine("Press Enter to stop the server.");
+Console.ReadLine();
 
-// ClinicDbContext clinicDbContext = new();
-// int[] date = new int[3] { 1993, 05, 28 };
-// var staffToAdd = new Staff
-// {
-//     FIN = "5NL6CHR",
-//     FirstName = "ZABIL",
-//     LastName = "KHASAYLI",
-//     Birthday = new DateTime(1993, 10, 14),
-//     Contract = new StaffContract
-//     {
-//         StartDate = DateTime.Now,
-//         Job_title = "Developer",
-//         Salary = 5522.22
-//     }
-// };
-
-// var staffEntry = clinicDbContext.Staff.Add(staffToAdd);
-// clinicDbContext.SaveChanges();
-// Console.WriteLine($"Added staff with ID: {staffEntry.Entity.Id}");
-
-
-// HttpListener httpListener = new HttpListener();
-// httpListener.Prefixes.Add("http://*:8080/");
-// httpListener.Start();
-
-// while (true)
-// {
-//     var context = await httpListener.GetContextAsync();
-//     using var writer = new StreamWriter(context.Response.OutputStream);
-
-//     var pageHtml = await File.ReadAllTextAsync("Views/HomePage.html");
-//     await writer.WriteLineAsync(pageHtml);
-//     context.Response.StatusCode = (int)HttpStatusCode.OK;
-//     context.Response.ContentType = "text/html";
-
-// }
+server.Stop();

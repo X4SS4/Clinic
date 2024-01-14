@@ -1,4 +1,5 @@
 namespace Clinic_App.Controllers.ClinicControllers.PersonControllers;
+using Clinic_App.Attributes;
 using Clinic_App.Controllers.BaseControllers;
 using Clinic_App.Models.Persons;
 using System.Net;
@@ -6,7 +7,7 @@ using System.Text.Json;
 
 public class StaffController : BaseController
 {
-    //[HttpGet("/")]
+    [HttpGet("/Staff")]
     public string Get()
     {
         var staff = clinicDbContext.Staff.ToList();
@@ -14,7 +15,7 @@ public class StaffController : BaseController
         return staffJson;
     }
 
-    //[HttpPost("/api/create")]
+    [HttpPost("/Staff/create")]
     public string Create(HttpListenerContext context)
     {
         var request = context.Request;
@@ -29,7 +30,7 @@ public class StaffController : BaseController
     }
 
 
-    //[HttpPut("/api/update")]
+    [HttpPut("/Staff/update")]
     public string Update(HttpListenerContext context)
     {
         var request = context.Request;
@@ -59,7 +60,7 @@ public class StaffController : BaseController
         }
     }
 
-    //[HttpDelete("/api/delete")]
+    [HttpDelete("/Staff/delete")]
     public string Delete(HttpListenerContext context)
     {
         var request = context.Request;
@@ -74,43 +75,4 @@ public class StaffController : BaseController
         context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
         return string.Empty;
     }
-
-    //public async Task GetAllStaffAsync()
-    //{
-    //    using var writer = new StreamWriter(base.HttpContext.Response.OutputStream);
-    //    using (var context = new ClinicDbContext())
-    //    {
-    //        List<Patient> allPatients = context.Patients.ToList();
-
-    //        await writer.WriteLineAsync(JsonSerializer.Serialize(allPatients));
-    //        base.HttpContext.Response.ContentType = "application/json";
-    //        base.HttpContext.Response.StatusCode = (int)HttpStatusCode.OK;
-    //    }
-    //}
-
-    // public async Task GetStaffByIdAsync()
-    // {
-    //     var staffIdToGetObj = base.HttpContext.Request.QueryString["id"];
-
-
-    //     // using (var context = new ClinicDbContext())
-    //     // {
-    //     //     if (staffIdToGetObj == null || int.TryParse(staffIdToGetObj, out int staffIdToGet) == false)
-    //     //     {
-    //     //         base.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-    //     //         return;
-    //     //     }
-    //     //     var staff = context.Staff.FirstOrDefault(s => s.Id == staffIdToFind);
-    //     //     if (staff is null)
-    //     //     {
-    //     //         base.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
-    //     //         return;
-    //     //     }
-    //     //     using var writer = new StreamWriter(base.HttpContext.Response.OutputStream);
-    //     //     await writer.WriteLineAsync(JsonSerializer.Serialize(staff));
-    //     //     base.HttpContext.Response.ContentType = "application/json";
-    //     //     base.HttpContext.Response.StatusCode = (int)HttpStatusCode.OK;
-    //     // }
-
-    // }
 }

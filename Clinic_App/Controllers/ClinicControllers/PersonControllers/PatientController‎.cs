@@ -1,4 +1,5 @@
 ﻿namespace Clinic_App.Controllers.ClinicControllers.PersonControllers;
+using Clinic_App.Attributes;
 using Clinic_App.Controllers.BaseControllers;
 using Clinic_App.Models.Persons;
 using System.Net;
@@ -6,7 +7,7 @@ using System.Text.Json;
 
 public class PatientController : BaseController
 {
-    //[HttpGet("/")]
+    [HttpGet("/Patient")]
     public string Get()
     {
         var patients = clinicDbContext.Patients.ToList();
@@ -14,7 +15,7 @@ public class PatientController : BaseController
         return patientsJson;
     }
 
-    //[HttpPost("/api/create")]
+    [HttpPost("/Patient/create")]
     public string Create(HttpListenerContext context)
     {
         var request = context.Request;
@@ -28,7 +29,7 @@ public class PatientController : BaseController
         }
     }
 
-    //[HttpPut("/api/update")]
+    [HttpPut("/Patient/update")]
     public string Update(HttpListenerContext context)
     {
         var request = context.Request;
@@ -58,7 +59,7 @@ public class PatientController : BaseController
         }
     }
 
-    //[HttpDelete("/api/delete")]
+    [HttpDelete("/Patient/delete")]
     public string Delete(HttpListenerContext context)
     {
         var request = context.Request;

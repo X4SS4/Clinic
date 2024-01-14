@@ -1,13 +1,14 @@
 namespace Clinic_App.Controllers.ClinicControllers.RoomControllers;
+
+using Clinic_App.Attributes;
 using Clinic_App.Controllers.BaseControllers;
-using Clinic_App.Models.Persons;
 using Clinic_App.Models.Rooms;
 using System.Net;
 using System.Text.Json;
 
 public class WardController : BaseController
 {
-    //[HttpGet("/")]
+    [HttpGet("/Ward")]
     public string Get()
     {
         var wards = clinicDbContext.Wards.ToList();
@@ -15,7 +16,7 @@ public class WardController : BaseController
         return wardsJson;
     }
 
-    //[HttpPost("/api/create")]
+    [HttpPost("/Ward/create")]
     public string Create(HttpListenerContext context)
     {
         var request = context.Request;
@@ -29,7 +30,7 @@ public class WardController : BaseController
         }
     }
 
-    //[HttpPut("/api/update")]
+    [HttpPut("/Ward/update")]
     public string Update(HttpListenerContext context)
     {
         var request = context.Request;
@@ -58,7 +59,7 @@ public class WardController : BaseController
         }
     }
 
-    //[HttpDelete("/api/delete")]
+    [HttpDelete("/Ward/delete")]
     public string Delete(HttpListenerContext context)
     {
         var request = context.Request;

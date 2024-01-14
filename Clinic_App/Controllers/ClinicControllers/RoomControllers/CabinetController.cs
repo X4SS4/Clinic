@@ -1,6 +1,6 @@
 namespace Clinic_App.Controllers.ClinicControllers.RoomControllers;
+using Clinic_App.Attributes;
 using Clinic_App.Controllers.BaseControllers;
-using Clinic_App.Models.Persons;
 using Clinic_App.Models.Rooms;
 using System.Net;
 using System.Text.Json;
@@ -8,7 +8,7 @@ using System.Text.Json;
 public class CabinetController : BaseController
 {
 
-    //[HttpGet("/")]
+    [HttpGet("/Cabinet")]
     public string Get()
     {
         var cabinets = clinicDbContext.Cabinets.ToList();
@@ -16,7 +16,7 @@ public class CabinetController : BaseController
         return cabinetsJson;
     }
 
-    //[HttpPost("/api/create")]
+    [HttpPost("/Cabinet/create")]
     public string Create(HttpListenerContext context)
     {
         var request = context.Request;
@@ -31,7 +31,7 @@ public class CabinetController : BaseController
     }
 
 
-    //[HttpPut("/api/update")]
+    [HttpPut("/Cabinet/update")]
     public string Update(HttpListenerContext context)
     {
         var request = context.Request;
@@ -61,7 +61,7 @@ public class CabinetController : BaseController
 
 
 
-    //[HttpDelete("/api/delete")]
+    [HttpDelete("/Cabinet/delete")]
     public string Delete(HttpListenerContext context)
     {
         var request = context.Request;
