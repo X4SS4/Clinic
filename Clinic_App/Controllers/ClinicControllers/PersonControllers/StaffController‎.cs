@@ -2,6 +2,8 @@ namespace Clinic_App.Controllers.ClinicControllers.PersonControllers;
 using Clinic_App.Attributes;
 using Clinic_App.Controllers.BaseControllers;
 using Clinic_App.Models.Persons;
+using Clinic_App.Models.Persons.StaffEntities;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Text.Json;
 
@@ -10,7 +12,7 @@ public class StaffController : BaseController
     [HttpGet("/Staff")]
     public string Get()
     {
-        var staff = clinicDbContext.Staff.ToList();
+        var staff = clinicDbContext.Staff.Include(s => s.Contract).ToList();
         var staffJson = JsonSerializer.Serialize(staff);
         return staffJson;
     }
@@ -54,7 +56,6 @@ public class StaffController : BaseController
             staff.LastName = newStaff.LastName;
             staff.FIN = newStaff.FIN;
             staff.Birthday = newStaff.Birthday;
-            staff.Contract = newStaff.Contract;
             clinicDbContext.SaveChanges();
             return requestBody;
         }
@@ -74,5 +75,23 @@ public class StaffController : BaseController
         }
         context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
         return string.Empty;
+    }
+
+    [HttpPut("/Staff/Contract/update")]
+    public string ChangeContract(HttpListenerContext context)
+    {
+        var request = context.Request;
+        var staffId = int.Parse(request.QueryString["id"]);
+        var contractId = clinicDbContext.Staff.FirstOrDefault(staff => staff.Id == staffId).Contract.Id;
+        var contract = clinicDbContext.StaffContracts.FirstOrDefault(contract => contract.Id == contractId);
+        using (var reader = new StreamReader(request.InputStream, request.ContentEncoding))
+        {
+            var requestBody = reader.ReadToEnd();
+            var newContract = JsonSerializer.Deserialize<StaffContract>(requestBody);
+            contract.Salary = newContract.Salary;
+            contract.Job_title = newContract.Job_title;
+            clinicDbContext.SaveChanges();
+            return requestBody;
+        }
     }
 }

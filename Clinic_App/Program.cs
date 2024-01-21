@@ -1,27 +1,15 @@
-﻿using Clinic_App.Controllers.ClinicControllers.PersonControllers;
-using Clinic_App.Controllers.ClinicControllers.RoomControllers;
+﻿using Clinic_App.Controllers.BaseControllers;
 using Clinic_App.Server;
+using System.Reflection;
 
-//Type[] coll = null;
-//var controllerType = Assembly.GetExecutingAssembly()
-//       .GetTypes()
-//       .Where(t => {
-//           if(t.BaseType == typeof(BaseController))
-//           {
-//               coll?.Append(t.GetType());
-//               return true;
-//           }
-//           return false;           
-//       });
 
-var server = new ClinicHttpServer(typeof(StaffController), 
-    typeof(PatientController), 
-    typeof(CabinetController), 
-    typeof(WardController));
-
+Type[] allControllerTypes = new Type[] { };
+var controllerTypes = Assembly.GetExecutingAssembly()
+       .GetTypes()
+       .Where(t => t.BaseType == typeof(BaseController));
+allControllerTypes = controllerTypes.ToArray();
+var server = new ClinicHttpServer(allControllerTypes);
 server.Start("http://localhost:8080/");
-
 Console.WriteLine("Press Enter to stop the server.");
 Console.ReadLine();
-
 server.Stop();

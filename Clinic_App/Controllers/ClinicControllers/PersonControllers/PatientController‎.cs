@@ -1,7 +1,9 @@
 ﻿namespace Clinic_App.Controllers.ClinicControllers.PersonControllers;
 using Clinic_App.Attributes;
+using Clinic_App.Clinic_db_ef;
 using Clinic_App.Controllers.BaseControllers;
 using Clinic_App.Models.Persons;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Text.Json;
 
@@ -10,7 +12,9 @@ public class PatientController : BaseController
     [HttpGet("/Patient")]
     public string Get()
     {
-        var patients = clinicDbContext.Patients.ToList();
+        var patients = clinicDbContext.Patients
+            .Include(p => p.PatientCard)
+            .ThenInclude(pc => pc.DiseaseHistories).ToList();
         var patientsJson = JsonSerializer.Serialize(patients);
         return patientsJson;
     }
@@ -23,7 +27,7 @@ public class PatientController : BaseController
         {
             var requestBody = reader.ReadToEnd();
             var newPatient = JsonSerializer.Deserialize<Patient>(requestBody);
-            var paientEntry = clinicDbContext.Patients.Add(newPatient);
+            clinicDbContext.Patients.Add(newPatient);
             clinicDbContext.SaveChanges();
             return requestBody;
         }
@@ -33,7 +37,7 @@ public class PatientController : BaseController
     public string Update(HttpListenerContext context)
     {
         var request = context.Request;
-        var patientId = request.QueryString["id"];
+        var patientId = int.Parse(request.QueryString["id"]);
         var patient = clinicDbContext.Patients.Find(patientId);
         if (patient == null)
         {
@@ -53,7 +57,6 @@ public class PatientController : BaseController
             patient.LastName = newPatient.LastName;
             patient.FIN = newPatient.FIN;
             patient.Birthday = newPatient.Birthday;
-            patient.PatientCard = newPatient.PatientCard;
             clinicDbContext.SaveChanges();
             return requestBody;
         }
@@ -73,5 +76,18 @@ public class PatientController : BaseController
         }
         context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
         return string.Empty;
+    }
+
+    [HttpPut("/Patient/update/ward")]
+    public string InWard(HttpListenerContext context)
+    {
+        var request = context.Request;
+        var patientId = int.Parse(request.QueryString["id"]);
+        var wardNumber = int.Parse(request.QueryString["ward"]);
+        var patient = clinicDbContext.Patients.FirstOrDefault(p => p.Id == patientId);
+        var ward = clinicDbContext.Wards.FirstOrDefault(w => w.Number == wardNumber);
+        patient.Ward = ward;
+        clinicDbContext.SaveChanges();
+        return "Patient added ";
     }
 }

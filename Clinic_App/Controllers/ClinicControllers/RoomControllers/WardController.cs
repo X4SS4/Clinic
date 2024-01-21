@@ -53,7 +53,6 @@ public class WardController : BaseController
             ward.Number = newWard.Number;
             ward.PatientCapacity = newWard.PatientCapacity;
             ward.Floor = newWard.Floor;
-            ward.Patients = newWard.Patients;
             clinicDbContext.SaveChanges();
             return requestBody;
         }
