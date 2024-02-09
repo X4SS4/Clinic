@@ -1,8 +1,9 @@
-﻿using System.Diagnostics;
+﻿namespace ClinicApp.Controllers;
+
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ClinicApp.Models;
 
-namespace ClinicApp.Controllers;
 
 public class HomeController : Controller
 {
