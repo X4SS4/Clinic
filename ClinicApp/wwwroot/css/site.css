@@ -8,7 +8,11 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
@@ -18,5 +22,52 @@ html {
 }
 
 body {
+  background-color: aqua;
   margin-bottom: 60px;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 20px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+nav ul li a:hover {
+  text-decoration: underline;
+}
+
+.main-content {
+  background-color: aqua;
+  padding: 20px;
+}
+
+.service {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 }
