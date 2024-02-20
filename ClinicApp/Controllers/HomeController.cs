@@ -17,8 +17,8 @@ public class HomeController : Controller
         return View();
     }
     [HttpPost]
-    public IActionResult Registration([FromForm] int dt)
+    public IActionResult Registration([FromForm] int medicalDepartment)
     {
-        return View();
+        return RedirectToAction("ShowDoctorList", "Doctor", medicalDepartment);
     }
 }

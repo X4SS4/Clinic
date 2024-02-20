@@ -1,0 +1,42 @@
+@model ViewModelDoctorPatient;
+@{
+  ViewData["Title"] = "New Patient";
+}
+
+
+<form method="post" asp-controller="Patient" asp-action="RegistrationPatient">
+
+  <input type="hidden" name="doctor.Id" value="@Model.doctor.Id" />
+  <input type="hidden" name="doctor.Firstname" value="@Model.doctor.Firstname" />
+  <input type="hidden" name="doctor.Lastname" value="@Model.doctor.Lastname" />
+  <input type="hidden" name="doctor.MedicalDepartment" value="@Model.doctor.MedicalDepartment" />
+
+  <input type="hidden" name="patient.Firstname" value="@Model.patient.Firstname" />
+  <input type="hidden" name="patient.Lastname" value="@Model.patient.Lastname" />
+  <input type="hidden" name="patient.Email" value="@Model.patient.Email" />
+
+  <div class="mb-3">
+    <label class="form-label" asp-for="@Model.patient.Firstname">Firstname</label>
+    <input type="text" class="form-control" asp-for="@Model.patient.Firstname">
+    <span class="text-danger" asp-validation-for="@Model.patient.Firstname"></span>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" asp-for="@Model.patient.Lastname">Lastname</label>
+    <input type="text" class="form-control" asp-for="@Model.patient.Lastname">
+    <span class="text-danger" asp-validation-for="@Model.patient.Lastname"></span>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" asp-for="@Model.patient.Email">Email</label>
+    <input type="email" class="form-control" asp-for="@Model.patient.Email">
+    <span class="text-danger" asp-validation-for="@Model.patient.Email"></span>
+  </div>
+
+  <button type="submit" class="btn btn-success">Save</button>
+</form>
+
+
+
+@section Scripts {
+  <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+  <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

@@ -1,21 +1,20 @@
 using ClinicApp.Models;
 using Dapper;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
-using System.Text.Json;
 
 namespace ClinicApp.ClinicDB
 {
-    public class ClinicDB : DbContext
+    public class BonadeaDB : DbContext
     {
-        private readonly string connectionString = "Server=localhost;Database=ClinicDB;Integrated Security=True;MultipleActiveResultSets=true;TrustServerCertificate=True";
+        private readonly string connectionString = "Server=localhost;Database=BonaDeaDB;Integrated Security=True;MultipleActiveResultSets=true;TrustServerCertificate=True";
         
-        public async Task<IEnumerable<Doctor>> GetDoctorsByMedicalDepartment(int MedicalDepartment)
+        public async Task<IEnumerable<Doctor>> GetDoctorsByMedicalDepartment(int medicalDepartment)
         {
             using var connection = new SqlConnection(connectionString);
-            var doctors = await connection.QueryAsync<Doctor>("SELECT * FROM Doctors WHERE MEDICALDEPARTMENT = 2");
+
+            string getDoctorByDepartmentQuery = "SELECT * FROM Doctors WHERE MEDICALDEPARTMENT = @MedicalDepartment";
+            var doctors = await connection.QueryAsync<Doctor>(getDoctorByDepartmentQuery, new {MedicalDepartment = medicalDepartment});
             return doctors;
         }
 
@@ -31,13 +30,13 @@ VALUES (@DoctorId, @PatientId)";
 
         public async Task<IEnumerable<Patient>> GetPatients(Doctor doctor)
         {
+            using var connection = new SqlConnection(connectionString);
+            
             string getPatientsByDoctorQuery = @"
             SELECT p.*
             FROM Patients p
             INNER JOIN DoctorPatient dp ON p.PatientId = dp.PatientId
             WHERE dp.DoctorId = @DoctorId";
-
-            using var connection = new SqlConnection(connectionString);
             var patients = await connection.QueryAsync<Patient>(getPatientsByDoctorQuery, 
                 new { DoctorId = doctor.Id});
             return patients;
@@ -50,9 +49,9 @@ VALUES (@DoctorId, @PatientId)";
             var products = await connection.ExecuteAsync( addPatientQuery,
                 param: new
                 {
-                    patient.FirstName,
-                    patient.LastName,
-                    patient.Email
+                    FirstName = patient.Firstname,
+                    LastName = patient.Lastname,
+                    Email = patient.Email
                 });
         }
     }
