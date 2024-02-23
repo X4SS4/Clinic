@@ -7,13 +7,13 @@ namespace ClinicApp.ClinicDB
 {
     public class BonadeaDB : DbContext
     {
-        private readonly string connectionString = "Server=localhost;Database=BonaDeaDB;Integrated Security=True;MultipleActiveResultSets=true;TrustServerCertificate=True";
+        private readonly string connectionString = "Server=localhost;Database=BonaDeaDB;User Id=admin;Password=admin;TrustServerCertificate=True;";
         
         public async Task<IEnumerable<Doctor>> GetDoctorsByMedicalDepartment(int medicalDepartment)
         {
             using var connection = new SqlConnection(connectionString);
 
-            string getDoctorByDepartmentQuery = "SELECT * FROM Doctors WHERE MEDICALDEPARTMENT = @MedicalDepartment";
+            string getDoctorByDepartmentQuery = @"SELECT * FROM Doctors WHERE MEDICALDEPARTMENT = @MedicalDepartment";
             var doctors = await connection.QueryAsync<Doctor>(getDoctorByDepartmentQuery, new {MedicalDepartment = medicalDepartment});
             return doctors;
         }
@@ -42,15 +42,35 @@ VALUES (@DoctorId, @PatientId)";
             return patients;
         }
 
+        public async Task<IEnumerable<Patient>> GetAllPatients()
+        {
+            using var connection = new SqlConnection(connectionString);
+            
+            string getPatientsByDoctorQuery = @"SELECT * FROM Patients";
+            var patients = await connection.QueryAsync<Patient>(getPatientsByDoctorQuery);
+            return patients;
+        }
+
+        public async Task<IEnumerable<Patient>> GetAllDoctors()
+        {
+            using var connection = new SqlConnection(connectionString);
+            
+            string getDoctorsByDoctorQuery = @"SELECT * FROM Doctors";
+            var doctors = await connection.QueryAsync<Patient>(getDoctorsByDoctorQuery);
+            return doctors;
+        }
+
         public async Task AddPatient(Patient patient)
         {
-            string addPatientQuery = "INSERT INTO Patients (FirstName, LastName, Email) VALUES (@FirstName, @LastName, @Email)";
+            string addPatientQuery = @"INSERT INTO Patients (FIN, Firstname, Lastname, Email) 
+VALUES (@FIN, @FirstName, @LastName, @Email)";
             using var connection = new SqlConnection(connectionString);
             var products = await connection.ExecuteAsync( addPatientQuery,
                 param: new
                 {
                     FirstName = patient.Firstname,
                     LastName = patient.Lastname,
+                    FIN = patient.FIN,
                     Email = patient.Email
                 });
         }

@@ -1,0 +1,23 @@
+@model IEnumerable<Patient>;
+@{
+  ViewData["Title"] = "Patient List";
+}
+
+
+<h2>Patients</h2>
+<div>
+  @foreach (var patient in Model)
+  {
+    <div class="card mb-4">
+      <div class="card-header">
+        @patient.Firstname
+      </div>
+      <div class="card-header">
+        @patient.Lastname
+      </div>
+      <div class="card-header">
+        @patient.Email
+      </div>
+    </div>
+  }
+</div>

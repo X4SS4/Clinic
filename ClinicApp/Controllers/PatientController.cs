@@ -1,5 +1,6 @@
 namespace ClinicApp.Controllers;
 
+using ClinicApp.ClinicDB;
 using ClinicApp.Models;
 using ClinicApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +19,20 @@ public class PatientController : Controller
     [HttpPost]
     public IActionResult RegistrationPatient([FromForm] Doctor doctor, [FromForm] Patient patient)
     {
-        // var vmDeserialized = JsonConvert.DeserializeObject<ViewModelDoctorPatient>(viewModelDoctorPatientJson);
+        // var repository = new BonadeaDB();
+        // await repository.AddPatient(patient);
         var doctorJS = System.Text.Json.JsonSerializer.Serialize(doctor);
         var patientJS = System.Text.Json.JsonSerializer.Serialize(patient);
         System.Console.WriteLine(doctorJS);
         System.Console.WriteLine(patientJS);
         return base.Ok(doctorJS + patientJS);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> ShowAllPatients()
+    {
+        var DB = new BonadeaDB();
+        var patients = await DB.GetAllPatients();
+        return View(model: patients);
     }
 }

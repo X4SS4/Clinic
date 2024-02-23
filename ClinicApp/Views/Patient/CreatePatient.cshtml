@@ -7,14 +7,16 @@
 <form method="post" asp-controller="Patient" asp-action="RegistrationPatient">
 
   <input type="hidden" name="doctor.Id" value="@Model.doctor.Id" />
+  <input type="hidden" name="doctor.FIN" value="@Model.doctor.FIN" />
   <input type="hidden" name="doctor.Firstname" value="@Model.doctor.Firstname" />
   <input type="hidden" name="doctor.Lastname" value="@Model.doctor.Lastname" />
   <input type="hidden" name="doctor.MedicalDepartment" value="@Model.doctor.MedicalDepartment" />
 
-  <input type="hidden" name="patient.Firstname" value="@Model.patient.Firstname" />
-  <input type="hidden" name="patient.Lastname" value="@Model.patient.Lastname" />
-  <input type="hidden" name="patient.Email" value="@Model.patient.Email" />
-
+  <div class="mb-3">
+    <label class="form-label" asp-for="@Model.patient.FIN">FIN</label>
+    <input type="text" class="form-control" asp-for="@Model.patient.FIN">
+    <span class="text-danger" asp-validation-for="@Model.patient.FIN"></span>
+  </div>
   <div class="mb-3">
     <label class="form-label" asp-for="@Model.patient.Firstname">Firstname</label>
     <input type="text" class="form-control" asp-for="@Model.patient.Firstname">
