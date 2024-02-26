@@ -10,15 +10,4 @@ public class HomeController : Controller
     {
         return View();
     }
-
-    [HttpGet]
-    public IActionResult Registration()
-    {
-        return View();
-    }
-    [HttpPost]
-    public IActionResult Registration([FromForm] int medicalDepartment)
-    {
-        return RedirectToAction("ShowDoctorList", "Doctor", medicalDepartment);
-    }
 }

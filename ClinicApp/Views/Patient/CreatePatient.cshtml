@@ -1,10 +1,11 @@
 @model ViewModelDoctorPatient;
 @{
-  ViewData["Title"] = "New Patient";
+  ViewData["Title"] = "Create Patient";
 }
 
 
-<form method="post" asp-controller="Patient" asp-action="RegistrationPatient">
+
+<form method="post" asp-controller="Registration" asp-action="RegistrationPatient">
 
   <input type="hidden" name="doctor.Id" value="@Model.doctor.Id" />
   <input type="hidden" name="doctor.FIN" value="@Model.doctor.FIN" />

@@ -4,7 +4,7 @@ namespace ClinicApp.Models
 
     public enum MedicalDepartmentsEnum
     {
-        Dentistry,
+        Dentistry = 1,
         Therapy,
         Surgery
     }

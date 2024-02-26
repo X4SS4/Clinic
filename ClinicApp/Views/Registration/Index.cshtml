@@ -6,15 +6,15 @@
 
 <section class="main-content">
     <h2>Service list</h2>
-    <form method="post" asp-controller="Doctor" asp-action="ShowDoctorList">
+    <form method="get" asp-controller="Doctor" asp-action="ShowDoctorByMedicalDepartment">
         <input type="hidden" name="medicalDepartment" value=1 />
         <button type="submit" class="nav-link text-dark" style="border: none; background-color: transparent; cursor: pointer;">Dentistry</button>
     </form>
-    <form method="post" asp-controller="Doctor" asp-action="ShowDoctorList">
+    <form method="get" asp-controller="Doctor" asp-action="ShowDoctorByMedicalDepartment">
         <input type="hidden" name="medicalDepartment" value=2 />
         <button type="submit" class="nav-link text-dark" style="border: none; background-color: transparent; cursor: pointer;">Therapy</button>
     </form>
-    <form method="post" asp-controller="Doctor"  asp-action=ShowDoctorList>
+    <form method="get" asp-controller="Doctor"  asp-action=ShowDoctorByMedicalDepartment>
         <input type="hidden" name="medicalDepartment" value=3 />
         <button type="submit" class="nav-link text-dark" style="border: none; background-color: transparent; cursor: pointer;">Surgery</button>
     </form>

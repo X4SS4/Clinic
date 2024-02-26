@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 public class DoctorController : Controller
 {
     [HttpGet]
-    public async Task<IActionResult> ShowDoctorList(int medicalDepartment)
+    public async Task<IActionResult> ShowDoctorByMedicalDepartment(int medicalDepartment)
     {
         var DB = new BonadeaDB();
         var doctors = await DB.GetDoctorsByMedicalDepartment(medicalDepartment);
@@ -19,7 +19,8 @@ public class DoctorController : Controller
     public async Task<IActionResult> ShowAllDoctors()
     {
         var DB = new BonadeaDB();
-        var doctors = await DB.GetAllPatients();
+        var doctors = await DB.GetAllDoctors();
         return View(model: doctors);
+    
     }
 }
