@@ -3,15 +3,18 @@
 namespace ClinicApp.Repositories.Doctor;
 
 using Dapper;
-using ClinicApp.Models;
+using ClinicApp.Models.ClinicEntities.Doctor;
 using System.Data.SqlClient;
+using ClinicApp.Models.ManageTools;
+using Microsoft.Extensions.Options;
 
 public class DoctorRepository : IDoctorRepository
 {
-    private const string connectionString =
-        @"Server=localhost;Database=BonaDeaDB;Integrated Security=True;MultipleActiveResultSets=true;TrustServerCertificate=True";
-
-    private readonly SqlConnection connection = new SqlConnection(connectionString);
+    private readonly SqlConnection connection;
+    public DoctorRepository(IOptions<ConnectionTools> connectionManager)
+    {
+        this.connection = new SqlConnection(connectionManager.Value.connectionString);
+    }
 
     public async Task<IEnumerable<Doctor>> GetDoctorsByMedicalDepartment(int medicalDepartment)
     {
