@@ -1,14 +1,22 @@
+using Repositories.Patient.Base;
+using Repositories.Doctor.Base;
+
 namespace ClinicApp.Controllers;
 
-using ClinicApp.ClinicDB;
+using ClinicApp.DTO;
 using ClinicApp.Models;
 using ClinicApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-
 public class RegistrationController : Controller
 {
-
+    private readonly IPatientRepository patientRepository;
+    private readonly IDoctorRepository doctorRepository;
+    public RegistrationController(IPatientRepository patientRepository, IDoctorRepository doctorRepository)
+    {
+        this.patientRepository = patientRepository;
+        this.doctorRepository = doctorRepository;
+    }
 
     [HttpGet]
     public IActionResult Index()
@@ -17,28 +25,29 @@ public class RegistrationController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> RegistrationPatient([FromForm] Doctor doctor, [FromForm] Patient patient)
+    public async Task<IActionResult> RegistrationPatient([FromForm] DoctorDTO doctor, [FromForm] PatientDTO patient)
     {
-        var db = new BonadeaDB();
-        await db.AddPatient(patient);
-        var patientId = (await db.GetPatientByFIN(patient.FIN)).Id;
-        var doctorId = (await db.GetDoctorByFIN(doctor.FIN)).Id;
-        await db.AddPatientToDoctor(doctorId: doctorId, patientId: patientId);
-
+        await patientRepository.AddPatient(new Patient
+        {
+            FIN = patient.FIN,
+            Firstname = patient.Firstname,
+            Lastname = patient.Lastname,
+            Email = patient.Email
+        });
+        var patientId = (await patientRepository.GetPatientByFIN(patient.FIN)).Id;
+        var doctorId = (await doctorRepository.GetDoctorByFIN(doctor.FIN)).Id;
+        await doctorRepository.AddPatientToDoctor(doctorId: doctorId, patientId: patientId);
         string url = $@"/Registration/Receipt?doctorFIN={doctor.FIN}&patientFIN={patient.FIN}";
         string script = $@"<script> window.open('{url}', '_blank'); window.location.href = '/Home/Index'; </script>";
-
         return Content(script, "text/html");
     }
 
     [HttpGet]
     public async Task<IActionResult> Receipt(string doctorFIN, string patientFIN)
     {
-        var db = new BonadeaDB();
         var veiwModel = new ViewModelDoctorPatient();
-        veiwModel.doctor = await db.GetDoctorByFIN(doctorFIN);
-        veiwModel.patient = await db.GetPatientByFIN(patientFIN);
-
+        veiwModel.doctor = await doctorRepository.GetDoctorByFIN(doctorFIN);
+        veiwModel.patient = await patientRepository.GetPatientByFIN(patientFIN);
         return View(veiwModel);
     }
 }
