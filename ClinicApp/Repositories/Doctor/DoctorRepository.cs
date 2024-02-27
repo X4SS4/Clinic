@@ -11,9 +11,9 @@ using Microsoft.Extensions.Options;
 public class DoctorRepository : IDoctorRepository
 {
     private readonly SqlConnection connection;
-    public DoctorRepository(IOptions<ConnectionTools> connectionManager)
+    public DoctorRepository(IOptions<ConnectionTools> connectionTools)
     {
-        this.connection = new SqlConnection(connectionManager.Value.connectionString);
+        this.connection = new SqlConnection(connectionTools.Value.DefaultConnectionString);
     }
 
     public async Task<IEnumerable<Doctor>> GetDoctorsByMedicalDepartment(int medicalDepartment)

@@ -2,5 +2,5 @@
 
 public class ConnectionTools
 {
-    public string? connectionString { get; set; }
+    public string? DefaultConnectionString { get; set; }
 }

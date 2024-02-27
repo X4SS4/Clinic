@@ -14,7 +14,7 @@ public class PatientRepository : IPatientRepository
     private readonly SqlConnection connection;
     public PatientRepository(IOptions<ConnectionTools> connectionManager)
     {
-        this.connection = new SqlConnection(connectionManager.Value.connectionString);
+        this.connection = new SqlConnection(connectionManager.Value.DefaultConnectionString);
     }
 
     public async Task<Patient> GetPatientByFIN(string? patientFIN)

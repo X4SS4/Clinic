@@ -1,7 +1,6 @@
 namespace ClinicApp.DTO;
 
-using ClinicApp.Models;
-
+using ClinicApp.Models.ClinicEntities.Doctor;
 
 public class DoctorDTO
 {
