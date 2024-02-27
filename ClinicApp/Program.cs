@@ -1,5 +1,8 @@
+using ClinicApp.Middlewares;
 using ClinicApp.Models.ManageTools;
 using ClinicApp.Repositories.Doctor;
+using ClinicApp.Repositories.Logging;
+using ClinicApp.Repositories.Logging.Base;
 using ClinicApp.Repositories.MedicalReceptionist;
 using ClinicApp.Repositories.MedicalReceptionist.Base;
 using ClinicApp.Repositories.Patient;
@@ -24,8 +27,11 @@ builder.Services.Configure<ConnectionTools>(builder.Configuration.GetSection("Co
 builder.Services.Configure<LoggerSwitch>(builder.Configuration.GetSection("LoggerSwitch"));
 
 builder.Services.AddScoped<IMedicalReceptionistRepository, MedicalReceptionistRepository>();
+builder.Services.AddScoped<ILogRecordRepository, LogRecordRepository>();
 builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+
+builder.Services.AddTransient<LoggingMiddleware>();
 
 var app = builder.Build();
 
@@ -40,6 +46,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
+app.UseMiddleware<LoggingMiddleware>();
 app.MapDefaultControllerRoute();
 
 app.Run();

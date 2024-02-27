@@ -115,3 +115,12 @@ CREATE TABLE [MedicalReceptionists] (
 )
 insert into [MedicalReceptionists]([Email], [Firstname], [Lastname], [Password])
 values('xas.zab.kam@gmail.com', 'Zabil', 'Khasayli', 'qwerty123')
+CREATE TABLE [LogRecords] (
+    [Id] INT PRIMARY KEY identity ,
+    [MedicalReceptionistId] INT,
+    [Url] NVARCHAR(MAX),
+    [MethodType] NVARCHAR(MAX),
+    [StatusCode] INT,
+    [RequestBody] NVARCHAR(MAX),
+    [ResponseBody] NVARCHAR(MAX)
+)
