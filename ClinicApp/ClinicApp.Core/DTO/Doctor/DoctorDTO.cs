@@ -1,4 +1,4 @@
-namespace ClinicApp.Core.DTO;
+namespace ClinicApp.Core.DTO.Doctor;
 
 using ClinicApp.Core.Models.ClinicEntities.Doctor;
 

@@ -1,17 +1,20 @@
 ﻿namespace ClinicApp.Presentation.Controllers;
 
-using ClinicApp.Core.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.DataProtection;
-using ClinicApp.Infrastructure.Repositories.MedicalReceptionist.Base;
+using ClinicApp.Infrastructure.Repositories.MedicalEmployee.Base;
+using ClinicApp.Core.DTO.MedicalEmployee;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 public class HomeController : Controller
 {
-    private readonly IMedicalReceptionistRepository medicalReceptionistRepository;
+    private readonly IMedicalEmployeeRepository medicalEmployeeRepository;
     private readonly IDataProtector dataProtector;
-    public HomeController(IMedicalReceptionistRepository medicalReceptionistRepository, IDataProtectionProvider dataProtectionProvider)
+    public HomeController(IMedicalEmployeeRepository medicalEmployeeRepository, IDataProtectionProvider dataProtectionProvider)
     {
-        this.medicalReceptionistRepository = medicalReceptionistRepository;
+        this.medicalEmployeeRepository = medicalEmployeeRepository;
         this.dataProtector = dataProtectionProvider.CreateProtector("IdentityProtection");
     }
 
@@ -21,35 +24,29 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Logout()
+    public async Task<IActionResult> Logout()
     {
-        if (HttpContext.Request.Cookies["MedicalReceptionId"] is not null)
-        {
-            HttpContext.Response.Cookies.Append("MedicalReceptionId", "", new CookieOptions
-            {
-                Expires = DateTimeOffset.Parse("1/1/2000")
-            });
-
-        }
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return RedirectToAction("Index", "Home");
     }
 
     public IActionResult Login()
     {
-        return View(model: new MedicalReceptionisLogintDTO());
+        return View(model: new MedicalEmployeeLogintDTO());
     }
 
     [HttpPost]
-    [Route("[controller]/[action]")]
-    public async Task<IActionResult> Login(MedicalReceptionisLogintDTO medicalReceptionisLogingDTO)
+    public async Task<IActionResult> Login(MedicalEmployeeLogintDTO medicalEmployeeLogingDTO)
     {
-        var result = await medicalReceptionistRepository.LoginAsync(medicalReceptionisLogingDTO.Email, medicalReceptionisLogingDTO.Password);
-        if (result is not null)
-        {
-            HttpContext.Response.Cookies.Append("MedicalReceptionId", dataProtector.Protect(result.Id.ToString()));
-            return RedirectToAction("Index", "Home");
-        }
-        ViewData.Add("Error", "Wrong email or/and password");
-        return View();
+        if (ModelState.IsValid == false) { return View(); }
+        var result = await medicalEmployeeRepository.LoginAsync(medicalEmployeeLogingDTO.Email, medicalEmployeeLogingDTO.Password);
+        if (result is null) { return RedirectToAction("Index", "Home"); }
+        var claims = new List<Claim>() {
+            new Claim(ClaimTypes.Role, result.Role.ToString()),
+            new Claim("MedicalEmployeeId", result.Id.ToString())
+        };
+        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+        return RedirectToAction("Index", "Home");
     }
 }

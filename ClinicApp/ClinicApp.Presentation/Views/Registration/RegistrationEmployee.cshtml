@@ -1,21 +1,33 @@
-@model MedicalEmployeeLogintDTO;
+﻿@model MedicalEmployeeRegistrationDTO;﻿
 @{
-  ViewData["Title"] = "Login";
+  ViewData["Title"] = "Create new employee";
 }
 
-<span class="text-danger">@ViewData["Error"]</span>
 
-<form method="post" asp-controller="Home" asp-action="Login">
+
+<form method="post" asp-controller="Registration" asp-action="RegistrationEmployee">
+
   <div class="mb-3">
     <label class="form-label" asp-for="@Model.Email">Email</label>
     <input type="email" class="form-control" asp-for="@Model.Email">
     <span class="text-danger" asp-validation-for="@Model.Email"></span>
   </div>
   <div class="mb-3">
+    <label class="form-label" asp-for="@Model.Firstname">Firstname</label>
+    <input type="text" class="form-control" asp-for="@Model.Firstname">
+    <span class="text-danger" asp-validation-for="@Model.Firstname"></span>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" asp-for="@Model.Lastname">Lastname</label>
+    <input type="text" class="form-control" asp-for="@Model.Lastname">
+    <span class="text-danger" asp-validation-for="@Model.Lastname"></span>
+  </div>
+  <div class="mb-3">
     <label class="form-label" asp-for="@Model.Password">Password</label>
     <input type="password" class="form-control" asp-for="@Model.Password">
     <span class="text-danger" asp-validation-for="@Model.Password"></span>
   </div>
+
   <button type="submit" class="btn btn-success">Registration</button>
 </form>
 

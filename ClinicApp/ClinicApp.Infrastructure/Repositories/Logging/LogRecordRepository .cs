@@ -19,7 +19,7 @@ public class LogRecordRepository : ILogRecordRepository
     public async Task<int> CreateAsync(LogRecord logRecord)
     {
         return await connection.ExecuteAsync(@"
-insert into LogRecords(MedicalReceptionistId, Url, MethodType, StatusCode, RequestBody, ResponseBody) 
-values(@MedicalReceptionistId, @Url, @MethodType, @StatusCode, @RequestBody, @ResponseBody)", logRecord);
+insert into LogRecords(MedicalEmployeeId, Url, MethodType, StatusCode, RequestBody, ResponseBody) 
+values(@MedicalEmployeeId, @Url, @MethodType, @StatusCode, @RequestBody, @ResponseBody)", logRecord);
     }
 }

@@ -3,7 +3,7 @@
 public class LogRecord
 {
     public int Id { get; set; }
-    public int MedicalReceptionistId { get; set; }
+    public int MedicalEmployeeId { get; set; }
     public string? Url { get; set; }
     public string? MethodType { get; set; }
     public int StatusCode { get; set; }
