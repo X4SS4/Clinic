@@ -21,37 +21,23 @@ public class DoctorRepository : IDoctorRepository
         var doctors = await _context.Doctors.Where(doctor => doctor.MedicalDepartment == (MedicalDepartmentsEnum)medicalDepartment).ToListAsync();
         return doctors;
     }
-    public Doctor GetDoctorByFIN(string? doctorFIN)
+    public Task<Doctor> GetDoctorByFIN(string? doctorFIN)
     {
-        var doctor = _context.Doctors.FirstOrDefault(doctor => doctor.FIN == doctorFIN);
+        var doctor = _context.Doctors.FirstOrDefaultAsync(doctor => doctor.FIN == doctorFIN);
         return doctor;
     }
     public async Task AddPatientToDoctor(int doctorId, int patientId)
     {
-        var doctorPatient = new DoctorPatient {
+        var doctorPatient = new DoctorPatient 
+        {
             PatientId = patientId,
             DoctorId = doctorId
         };
-        _context.DoctorPatients.Add(doctorPatient);
+        _ = await _context.DoctorPatients.AddAsync(doctorPatient);
     }
     public async Task<IEnumerable<Doctor>> GetAllDoctors()
     {
         var doctors = (await _context.Doctors.ToListAsync()).ToList();
         return doctors;
-    }
-
-    Task<IEnumerable<Doctor>> IDoctorRepository.GetDoctorsByMedicalDepartment(int medicalDepartment)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task<Doctor> IDoctorRepository.GetDoctorByFIN(string? doctorFIN)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task<IEnumerable<Doctor>> IDoctorRepository.GetAllDoctors()
-    {
-        throw new NotImplementedException();
     }
 }

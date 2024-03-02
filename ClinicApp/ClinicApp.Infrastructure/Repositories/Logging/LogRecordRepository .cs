@@ -13,13 +13,8 @@ public class LogRecordRepository : ILogRecordRepository
         this._context = _context;
     }
 
-    public Task<int> CreateAsync(LogRecord log)
+    public async Task CreateAsync(LogRecord log)
     {
-        throw new NotImplementedException();
+        _ = await _context.AddAsync(log);
     }
-
-    //public async Task<int> CreateAsync(LogRecord logRecord)
-    //{
-
-    //}
 }

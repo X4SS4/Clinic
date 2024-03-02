@@ -4,5 +4,5 @@ using ClinicApp.Core.Models.LoggingEntities.LogRecord;
 
 public interface ILogRecordRepository
 {
-    Task<int> CreateAsync(LogRecord log);
+    Task CreateAsync(LogRecord log);
 }
