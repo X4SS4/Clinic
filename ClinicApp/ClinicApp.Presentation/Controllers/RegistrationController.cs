@@ -56,14 +56,14 @@ public class RegistrationController : Controller
     [HttpPost]
     public async Task<IActionResult> RegistrationEmployee([FromForm] MedicalEmployeeRegistrationDTO medicalemployeeDTO)
     {
-        await medicalEmployeeRepository.AddEmployee(new MedicalEmployee
-        {
-            Email = medicalemployeeDTO.Email,
-            Firstname = medicalemployeeDTO.Firstname,
-            Lastname = medicalemployeeDTO.Lastname,
-            Password = medicalemployeeDTO.Password,
-            Role = Core.Models.ManageTools.AccessRoles.MedicalReceptionist
-        });
+        //await medicalEmployeeRepository.AddEmployee(new MedicalEmployee
+        //{
+        //    Email = medicalemployeeDTO.Email,
+        //    Firstname = medicalemployeeDTO.Firstname,
+        //    Lastname = medicalemployeeDTO.Lastname,
+        //    Password = medicalemployeeDTO.Password,
+        //    Role = Core.Models.ManageTools.AccessRoles.MedicalReceptionist
+        //});
         string url = $@"/Registration/SuccessfulRegistrationMessage?medicalemployeeEmail={medicalemployeeDTO.Email}";
         string script = $@"<script> window.open('{url}', '_blank'); window.location.href = '/Home/Index'; </script>";
         return Content(script, "text/html");

@@ -1,44 +1,57 @@
-﻿using ClinicApp.Infrastructure.Repositories.Doctor.Base;
+﻿namespace ClinicApp.Infrastructure.Repositories.Doctor;
 
-namespace ClinicApp.Infrastructure.Repositories.Doctor;
-
-using Dapper;
-using System.Data.SqlClient;
-using Microsoft.Extensions.Options;
-using ClinicApp.Core.Models.ManageTools;
 using ClinicApp.Core.Models.ClinicEntities.Doctor;
+using ClinicApp.Infrastructure.Data;
+using ClinicApp.Infrastructure.Repositories.Doctor.Base;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using ClinicApp.Core.Models.ClinicEntities.DoctorPatient;
+using Microsoft.EntityFrameworkCore;
 
 public class DoctorRepository : IDoctorRepository
 {
-    private readonly SqlConnection connection;
-    public DoctorRepository(IOptions<ConnectionTools> connectionTools)
+    private readonly ClinicAppDbContext _context;
+    public DoctorRepository(ClinicAppDbContext _context)
     {
-        this.connection = new SqlConnection(connectionTools.Value.DefaultConnectionString);
+        this._context = _context;
     }
 
     public async Task<IEnumerable<Doctor>> GetDoctorsByMedicalDepartment(int medicalDepartment)
     {
-        string getDoctorByDepartmentQuery = @"SELECT * FROM Doctors WHERE MEDICALDEPARTMENT = @MedicalDepartment";
-        var doctors = await connection.QueryAsync<Doctor>(getDoctorByDepartmentQuery, new { MedicalDepartment = medicalDepartment });
+        var doctors = await _context.Doctors.Where(doctor => doctor.MedicalDepartment == (MedicalDepartmentsEnum)medicalDepartment).ToListAsync();
         return doctors;
     }
-    public async Task<Doctor> GetDoctorByFIN(string? doctorFIN)
+    public Doctor GetDoctorByFIN(string? doctorFIN)
     {
-        string getDoctorByFINQuery = @"SELECT * FROM Doctors WHERE FIN = @FIN";
-        var doctor = await connection.QueryFirstOrDefaultAsync<Doctor>(getDoctorByFINQuery, new { FIN = doctorFIN }) ?? new Doctor();
+        var doctor = _context.Doctors.FirstOrDefault(doctor => doctor.FIN == doctorFIN);
         return doctor;
     }
     public async Task AddPatientToDoctor(int doctorId, int patientId)
     {
-        string insertDoctorPatientQuery = @"INSERT INTO DoctorPatient (DoctorId, PatientId) 
-VALUES (@DoctorId, @PatientId)";
-        await connection.ExecuteAsync(insertDoctorPatientQuery,
-            new { DoctorId = doctorId, PatientId = patientId });
+        var doctorPatient = new DoctorPatient {
+            PatientId = patientId,
+            DoctorId = doctorId
+        };
+        _context.DoctorPatients.Add(doctorPatient);
     }
     public async Task<IEnumerable<Doctor>> GetAllDoctors()
     {
-        string getDoctorsByDoctorQuery = @"SELECT * FROM Doctors";
-        var doctors = await connection.QueryAsync<Doctor>(getDoctorsByDoctorQuery);
+        var doctors = (await _context.Doctors.ToListAsync()).ToList();
         return doctors;
+    }
+
+    Task<IEnumerable<Doctor>> IDoctorRepository.GetDoctorsByMedicalDepartment(int medicalDepartment)
+    {
+        throw new NotImplementedException();
+    }
+
+    Task<Doctor> IDoctorRepository.GetDoctorByFIN(string? doctorFIN)
+    {
+        throw new NotImplementedException();
+    }
+
+    Task<IEnumerable<Doctor>> IDoctorRepository.GetAllDoctors()
+    {
+        throw new NotImplementedException();
     }
 }

@@ -1,64 +1,63 @@
-﻿using ClinicApp.Infrastructure.Repositories.Patient.Base;
+﻿namespace ClinicApp.Infrastructure.Repositories.Patient;
 
-namespace ClinicApp.Infrastructure.Repositories.Patient;
-
-using Dapper;
-using System.Data.SqlClient;
-using Microsoft.Extensions.Options;
-using ClinicApp.Core.Models.ManageTools;
+using ClinicApp.Infrastructure.Data;
 using ClinicApp.Core.Models.ClinicEntities.Doctor;
 using ClinicApp.Core.Models.ClinicEntities.Patient;
+using ClinicApp.Infrastructure.Repositories.Patient.Base;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 public class PatientRepository : IPatientRepository
 {
-    private readonly SqlConnection connection;
-    public PatientRepository(IOptions<ConnectionTools> connectionManager)
+    private readonly ClinicAppDbContext _context;
+    public PatientRepository(ClinicAppDbContext _context)
     {
-        this.connection = new SqlConnection(connectionManager.Value.DefaultConnectionString);
+        this._context = _context;
     }
 
-    public async Task<Patient> GetPatientByFIN(string? patientFIN)
+    public Task AddPatient(Patient patient)
     {
-        string getPatientByFINQuery = @"SELECT * FROM Patients WHERE FIN = @FIN";
-        var patient = await connection.QueryFirstOrDefaultAsync<Patient>(getPatientByFINQuery, new { FIN = patientFIN }) ?? new Patient();
-        return patient;
+        throw new NotImplementedException();
     }
-    public async Task<IEnumerable<Patient>> GetPatients(Doctor doctor)
+
+    public Task<IEnumerable<Patient>> GetAllPatients()
     {
-        string getPatientsByDoctorQuery = @"SELECT p.* FROM Patients p 
-INNER JOIN DoctorPatient dp ON p.PatientId = dp.PatientId 
-WHERE dp.DoctorId = @DoctorId";
-        var patients = await connection.QueryAsync<Patient>(getPatientsByDoctorQuery,
-            new { DoctorId = doctor.Id });
-        return patients;
+        throw new NotImplementedException();
     }
-    public async Task<IEnumerable<Patient>> GetAllPatients()
+
+    public Task<Patient> GetPatientByFIN(string? patientFIN)
     {
-        string getPatientsQuery = @"SELECT * FROM Patients";
-        var patients = await connection.QueryAsync<Patient>(getPatientsQuery);
-        return patients;
+        throw new NotImplementedException();
     }
-    public async Task AddPatient(Patient patient)
+
+    public Task<IEnumerable<Patient>> GetPatients(Doctor doctor)
     {
-        string addPatientQuery = @"INSERT INTO Patients (FIN, Firstname, Lastname, Email) 
-VALUES (@FIN, @FirstName, @LastName, @Email)";
-        var products = await connection.ExecuteAsync(addPatientQuery,
-            param: new
-            {
-                FirstName = patient.Firstname,
-                LastName = patient.Lastname,
-                FIN = patient.FIN,
-                Email = patient.Email
-            });
+        throw new NotImplementedException();
     }
-    public async Task<IEnumerable<Patient>> GetPatientsByDoctor(string doctorFIN)
+
+    public Task<IEnumerable<Patient>> GetPatientsByDoctor(string doctorFIN)
     {
-        string getPatientsByDoctorQuery = @"SELECT Patients.* 
-FROM Patients 
-INNER JOIN DoctorPatient ON Patients.Id = DoctorPatient.PatientId 
-INNER JOIN Doctors ON DoctorPatient.DoctorId = Doctors.Id 
-WHERE Doctors.FIN = @DoctorFIN;";
-        var patients = await connection.QueryAsync<Patient>(getPatientsByDoctorQuery, new { DoctorFIN = doctorFIN });
-        return patients;
+        throw new NotImplementedException();
     }
+
+    //public async Task<Patient> GetPatientByFIN(string? patientFIN)
+    //{
+
+    //}
+    //public async Task<IEnumerable<Patient>> GetPatients(Doctor doctor)
+    //{
+
+    //}
+    //public async Task<IEnumerable<Patient>> GetAllPatients()
+    //{
+
+    //}
+    //public async Task AddPatient(Patient patient)
+    //{
+
+    //}
+    //public async Task<IEnumerable<Patient>> GetPatientsByDoctor(string doctorFIN)
+    //{
+
+    //}
 }

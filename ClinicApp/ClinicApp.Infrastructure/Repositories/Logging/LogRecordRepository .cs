@@ -1,25 +1,25 @@
-using ClinicApp.Infrastructure.Repositories.Logging.Base;
-
 namespace ClinicApp.Infrastructure.Repositories.Logging;
 
-using Dapper;
-using System.Data.SqlClient;
-using Microsoft.Extensions.Options;
-using ClinicApp.Core.Models.ManageTools;
+using ClinicApp.Infrastructure.Data;
 using ClinicApp.Core.Models.LoggingEntities.LogRecord;
+using ClinicApp.Infrastructure.Repositories.Logging.Base;
+using System.Threading.Tasks;
 
 public class LogRecordRepository : ILogRecordRepository
 {
-    private readonly SqlConnection connection;
-    public LogRecordRepository(IOptions<ConnectionTools> connectionManager)
+    private readonly ClinicAppDbContext _context;
+    public LogRecordRepository(ClinicAppDbContext _context)
     {
-        this.connection = new SqlConnection(connectionManager.Value.DefaultConnectionString);
+        this._context = _context;
     }
 
-    public async Task<int> CreateAsync(LogRecord logRecord)
+    public Task<int> CreateAsync(LogRecord log)
     {
-        return await connection.ExecuteAsync(@"
-insert into LogRecords(MedicalEmployeeId, Url, MethodType, StatusCode, RequestBody, ResponseBody) 
-values(@MedicalEmployeeId, @Url, @MethodType, @StatusCode, @RequestBody, @ResponseBody)", logRecord);
+        throw new NotImplementedException();
     }
+
+    //public async Task<int> CreateAsync(LogRecord logRecord)
+    //{
+
+    //}
 }

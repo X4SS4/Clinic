@@ -1,21 +1,26 @@
 ﻿namespace ClinicApp.Presentation.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.DataProtection;
-using ClinicApp.Infrastructure.Repositories.MedicalEmployee.Base;
 using ClinicApp.Core.DTO.MedicalEmployee;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
+using ClinicApp.Core.Models.ClinicEntities.MedicalEmployee;
 
 public class HomeController : Controller
 {
-    private readonly IMedicalEmployeeRepository medicalEmployeeRepository;
-    private readonly IDataProtector dataProtector;
-    public HomeController(IMedicalEmployeeRepository medicalEmployeeRepository, IDataProtectionProvider dataProtectionProvider)
+    private readonly UserManager<MedicalEmployee> userManager;
+    private readonly RoleManager<IdentityRole<int>> roleManager;
+    private readonly SignInManager<MedicalEmployee> signInManager;
+    public HomeController(
+        UserManager<MedicalEmployee> userManager,
+        RoleManager<IdentityRole<int>> roleManager,
+        SignInManager<MedicalEmployee> signInManager)
     {
-        this.medicalEmployeeRepository = medicalEmployeeRepository;
-        this.dataProtector = dataProtectionProvider.CreateProtector("IdentityProtection");
+        this.userManager = userManager;
+        this.roleManager = roleManager;
+        this.signInManager = signInManager;
     }
 
     [HttpGet]
@@ -26,7 +31,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Logout()
     {
-        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        await signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");
     }
 
@@ -38,15 +43,11 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> Login(MedicalEmployeeLogintDTO medicalEmployeeLogingDTO)
     {
-        if (ModelState.IsValid == false) { return View(); }
-        var result = await medicalEmployeeRepository.LoginAsync(medicalEmployeeLogingDTO.Email, medicalEmployeeLogingDTO.Password);
-        if (result is null) { return RedirectToAction("Index", "Home"); }
-        var claims = new List<Claim>() {
-            new Claim(ClaimTypes.Role, result.Role.ToString()),
-            new Claim("MedicalEmployeeId", result.Id.ToString())
-        };
-        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+        if (ModelState.IsValid == false) return View();
+        var medicalEmployee = await userManager.FindByEmailAsync(medicalEmployeeLogingDTO.Email);
+        if (medicalEmployee is null) { return RedirectToAction("Index", "Home"); }
+        var result = await signInManager.PasswordSignInAsync(medicalEmployee, medicalEmployeeLogingDTO.Password, true, true);
+        if (result.Succeeded == false) return View();
         return RedirectToAction("Index", "Home");
     }
 }

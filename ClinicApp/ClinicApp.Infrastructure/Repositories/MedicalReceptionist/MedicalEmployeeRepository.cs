@@ -1,39 +1,45 @@
-using ClinicApp.Infrastructure.Repositories.MedicalEmployee.Base;
-
 namespace ClinicApp.Infrastructure.Repositories.MedicalEmployee;
 
-using Dapper;
-using System.Data.SqlClient;
-using Microsoft.Extensions.Options;
-using ClinicApp.Core.Models.ManageTools;
 using ClinicApp.Core.Models.ClinicEntities.MedicalEmployee;
+using ClinicApp.Infrastructure.Data;
+using ClinicApp.Infrastructure.Repositories.MedicalEmployee.Base;
+using System.Threading.Tasks;
 
 public class MedicalEmployeeRepository : IMedicalEmployeeRepository
 {
-    private readonly SqlConnection connection;
-
-    public MedicalEmployeeRepository(IOptions<ConnectionTools> connectionManager)
+    private readonly ClinicAppDbContext _context;
+    public MedicalEmployeeRepository(ClinicAppDbContext _context)
     {
-        this.connection = new SqlConnection(connectionManager.Value.DefaultConnectionString);
+        this._context = _context;
     }
 
-    public async Task<int> AddEmployee(MedicalEmployee employee)
+    public Task<int> AddEmployee(MedicalEmployee employee)
     {
-        return await connection.ExecuteAsync(@"
-        INSERT INTO [MedicalEmployees]([Email], [Firstname], [Lastname], [Password], [Role])
-        VALUES (@Email, @Firstname, @Lastname, @Password, @Role)", employee);
+        throw new NotImplementedException();
     }
 
-    public async Task<MedicalEmployee?> GetEmployeeByEmail(string email)
+    public Task<MedicalEmployee?> GetEmployeeByEmail(string email)
     {
-        return await connection.QueryFirstOrDefaultAsync<MedicalEmployee>(@"SELECT * FROM [MedicalEmployees] 
-WHERE [Email] = @email", new { email });
+        throw new NotImplementedException();
     }
 
-    public async Task<MedicalEmployee?> LoginAsync(string? email, string? password)
+    public Task<MedicalEmployee?> LoginAsync(string? email, string? password)
     {
-        var result = await connection.QueryFirstOrDefaultAsync<MedicalEmployee>(@"SELECT * FROM MedicalEmployees 
-WHERE Email = @Email AND Password = @Password", new { Email = email, Password = password });
-        return result;
+        throw new NotImplementedException();
     }
+
+    //public async Task<int> AddEmployee(MedicalEmployee employee)
+    //{
+
+    //}
+
+    //public async Task<MedicalEmployee?> GetEmployeeByEmail(string email)
+    //{
+
+    //}
+
+    //public async Task<MedicalEmployee?> LoginAsync(string? email, string? password)
+    //{
+
+    //}
 }
