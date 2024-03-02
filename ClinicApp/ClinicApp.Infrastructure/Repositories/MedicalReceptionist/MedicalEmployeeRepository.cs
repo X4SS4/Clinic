@@ -3,6 +3,7 @@ namespace ClinicApp.Infrastructure.Repositories.MedicalEmployee;
 using ClinicApp.Core.Models.ClinicEntities.MedicalEmployee;
 using ClinicApp.Infrastructure.Data;
 using ClinicApp.Infrastructure.Repositories.MedicalEmployee.Base;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 public class MedicalEmployeeRepository : IMedicalEmployeeRepository
@@ -11,35 +12,16 @@ public class MedicalEmployeeRepository : IMedicalEmployeeRepository
     public MedicalEmployeeRepository(ClinicAppDbContext _context)
     {
         this._context = _context;
-    }
+    
+}
 
-    public Task<int> AddEmployee(MedicalEmployee employee)
+    public async Task AddEmployee(MedicalEmployee employee)
     {
-        throw new NotImplementedException();
+        _ = await _context.Employees.AddAsync(employee);
     }
 
     public Task<MedicalEmployee?> GetEmployeeByEmail(string email)
     {
-        throw new NotImplementedException();
+        return _context.Employees.FirstOrDefaultAsync(employee => employee.Email == email);
     }
-
-    public Task<MedicalEmployee?> LoginAsync(string? email, string? password)
-    {
-        throw new NotImplementedException();
-    }
-
-    //public async Task<int> AddEmployee(MedicalEmployee employee)
-    //{
-
-    //}
-
-    //public async Task<MedicalEmployee?> GetEmployeeByEmail(string email)
-    //{
-
-    //}
-
-    //public async Task<MedicalEmployee?> LoginAsync(string? email, string? password)
-    //{
-
-    //}
 }
