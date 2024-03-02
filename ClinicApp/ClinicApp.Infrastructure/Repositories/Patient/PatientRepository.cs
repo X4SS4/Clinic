@@ -6,6 +6,7 @@ using ClinicApp.Core.Models.ClinicEntities.Patient;
 using ClinicApp.Infrastructure.Repositories.Patient.Base;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 public class PatientRepository : IPatientRepository
 {
@@ -15,49 +16,30 @@ public class PatientRepository : IPatientRepository
         this._context = _context;
     }
 
-    public Task AddPatient(Patient patient)
+    public async Task<Patient> GetPatientByFIN(string? patientFIN)
     {
-        throw new NotImplementedException();
+        return await _context.Patients.FirstOrDefaultAsync(patient => patient.FIN == patientFIN);
     }
 
-    public Task<IEnumerable<Patient>> GetAllPatients()
+    public async Task<IEnumerable<Patient>> GetPatientsByDoctor(Doctor doctor)
     {
-        throw new NotImplementedException();
+        var patientIds = await _context.DoctorPatients
+                                        .Where(dp => dp.DoctorId == doctor.Id)
+                                        .Select(dp => dp.PatientId)
+                                        .ToListAsync();
+
+        return await _context.Patients
+                                .Where(patient => patientIds.Contains(patient.Id))
+                                .ToListAsync();
     }
 
-    public Task<Patient> GetPatientByFIN(string? patientFIN)
+    public async Task<IEnumerable<Patient>> GetAllPatients()
     {
-        throw new NotImplementedException();
+        return await _context.Patients.ToListAsync();
     }
 
-    public Task<IEnumerable<Patient>> GetPatients(Doctor doctor)
+    public async Task AddPatient(Patient patient)
     {
-        throw new NotImplementedException();
+        await _context.Patients.AddAsync(patient);
     }
-
-    public Task<IEnumerable<Patient>> GetPatientsByDoctor(string doctorFIN)
-    {
-        throw new NotImplementedException();
-    }
-
-    //public async Task<Patient> GetPatientByFIN(string? patientFIN)
-    //{
-
-    //}
-    //public async Task<IEnumerable<Patient>> GetPatients(Doctor doctor)
-    //{
-
-    //}
-    //public async Task<IEnumerable<Patient>> GetAllPatients()
-    //{
-
-    //}
-    //public async Task AddPatient(Patient patient)
-    //{
-
-    //}
-    //public async Task<IEnumerable<Patient>> GetPatientsByDoctor(string doctorFIN)
-    //{
-
-    //}
 }

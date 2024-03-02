@@ -37,7 +37,7 @@ public class DoctorRepository : IDoctorRepository
     }
     public async Task<IEnumerable<Doctor>> GetAllDoctors()
     {
-        var doctors = (await _context.Doctors.ToListAsync()).ToList();
+        var doctors = await _context.Doctors.ToListAsync();
         return doctors;
     }
 }
