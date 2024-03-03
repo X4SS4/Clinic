@@ -4,7 +4,7 @@ using Repositories.Doctor.Base;
 namespace ClinicApp.Controllers;
 
 using ClinicApp.DTO;
-using ClinicApp.Models;
+using ClinicApp.Models.ClinicEntities.Patient;
 using ClinicApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 

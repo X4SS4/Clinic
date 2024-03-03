@@ -3,7 +3,7 @@ using Repositories.Doctor.Base;
 
 namespace ClinicApp.Controllers;
 
-using ClinicApp.Models;
+using ClinicApp.Models.ClinicEntities.Doctor;
 using ClinicApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;

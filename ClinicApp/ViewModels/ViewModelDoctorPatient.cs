@@ -1,7 +1,7 @@
 namespace ClinicApp.ViewModels;
 
-using ClinicApp.Models;
-
+using ClinicApp.Models.ClinicEntities.Doctor;
+using ClinicApp.Models.ClinicEntities.Patient;
 
 public class ViewModelDoctorPatient
 {

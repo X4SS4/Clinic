@@ -3,7 +3,7 @@
     ViewData["Title"] = "Doctor`s patients";
 }
 
-
+@if(Model.doctor != null && Model.patients != null){
 <h2>Dr. @Model.doctor.Firstname @Model.doctor.Lastname `s patients</h2>
 <div>
     @foreach (var patient in Model.patients)
@@ -24,4 +24,4 @@
         </form>
     }
 </div>
-
+}

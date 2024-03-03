@@ -3,15 +3,19 @@
 namespace ClinicApp.Repositories.Patient;
 
 using System.Data.SqlClient;
-using ClinicApp.Models;
+using ClinicApp.Models.ClinicEntities.Doctor;
+using ClinicApp.Models.ClinicEntities.Patient;
+using ClinicApp.Models.ManageTools;
 using Dapper;
+using Microsoft.Extensions.Options;
 
 public class PatientRepository : IPatientRepository
 {
-    private const string connectionString = 
-        @"Server=localhost;Database=BonaDeaDB;Integrated Security=True;MultipleActiveResultSets=true;TrustServerCertificate=True";
-
-    private readonly SqlConnection connection = new SqlConnection(connectionString);
+    private readonly SqlConnection connection;
+    public PatientRepository(IOptions<ConnectionTools> connectionManager)
+    {
+        this.connection = new SqlConnection(connectionManager.Value.DefaultConnectionString);
+    }
 
     public async Task<Patient> GetPatientByFIN(string? patientFIN)
     {
@@ -49,8 +53,6 @@ VALUES (@FIN, @FirstName, @LastName, @Email)";
     }
     public async Task<IEnumerable<Patient>> GetPatientsByDoctor(string doctorFIN)
     {
-        using var connection = new SqlConnection(connectionString);
-
         string getPatientsByDoctorQuery = @"SELECT Patients.* 
 FROM Patients 
 INNER JOIN DoctorPatient ON Patients.Id = DoctorPatient.PatientId 

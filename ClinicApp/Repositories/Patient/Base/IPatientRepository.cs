@@ -1,6 +1,7 @@
 namespace Repositories.Patient.Base;
 
-using ClinicApp.Models;
+using ClinicApp.Models.ClinicEntities.Patient;
+using ClinicApp.Models.ClinicEntities.Doctor;
 
 public interface IPatientRepository
 {

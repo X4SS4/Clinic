@@ -1,6 +1,6 @@
 namespace Repositories.Doctor.Base;
 
-using ClinicApp.Models;
+using ClinicApp.Models.ClinicEntities.Doctor;
 
 public interface IDoctorRepository
 {

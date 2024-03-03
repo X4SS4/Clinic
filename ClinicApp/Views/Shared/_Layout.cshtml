@@ -1,5 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var isLoggedIn = HttpContextAccessor?.HttpContext?.Request.Cookies["MedicalReceptionId"] is not null ? "hidden" : "";
+    var isLoggedOut = HttpContextAccessor?.HttpContext?.Request.Cookies["MedicalReceptionId"] is null ? "hidden" : "";
+}
+
+
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,26 +18,38 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ClinicApp.styles.css" asp-append-version="true" />
 </head>
+
 <body>
     <header>
         <h1>Welcome to BoneDea Customer relationship management</h1>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
+                <img class="navbar-toggler-icon" src="/icon.png" alt="" />
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Bonadea</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Registration" asp-action="Index">Registration</a>
+                        <li class="nav-item" @isLoggedIn>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home"
+                                asp-action="Login">Login</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Patient" asp-action="ShowAllPatients">Patients</a>
+                        <li class="nav-item" @isLoggedOut>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Registration"
+                                asp-action="Index">Registration</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Doctor" asp-action="ShowAllDoctors">Doctors</a>
+                        <li class="nav-item" @isLoggedOut>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Patient"
+                                asp-action="ShowAllPatients">Patients</a>
+                        </li>
+                        <li class="nav-item" @isLoggedOut>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Doctor"
+                                asp-action="ShowAllDoctors">Doctors</a>
+                        </li>
+                        <li class="nav-item" @isLoggedOut>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home"
+                                asp-action="Logout">Logout</a>
                         </li>
                     </ul>
                 </div>
@@ -40,15 +62,16 @@
         </main>
     </div>
 
-    
-    
+
+
     @* <footer>
-        <p>&copy; 2024 BonaDea. All rights reserved.</p>
+    <p>&copy; 2024 BonaDea. All rights reserved.</p>
     </footer> *@
-    
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>

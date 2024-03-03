@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClinicApp", "ClinicApp.csproj", "{BB4E3E1B-B464-45B9-A973-4418CE970265}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClinicApp", "ClinicApp.csproj", "{AF80162E-C8D7-4843-985B-831F3FB4796D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BB4E3E1B-B464-45B9-A973-4418CE970265}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BB4E3E1B-B464-45B9-A973-4418CE970265}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BB4E3E1B-B464-45B9-A973-4418CE970265}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BB4E3E1B-B464-45B9-A973-4418CE970265}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF80162E-C8D7-4843-985B-831F3FB4796D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF80162E-C8D7-4843-985B-831F3FB4796D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF80162E-C8D7-4843-985B-831F3FB4796D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF80162E-C8D7-4843-985B-831F3FB4796D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {ECC9CC68-781E-4478-BCD8-2ADD9B36E9FD}
+		SolutionGuid = {371D9E84-7353-4D30-8B36-1D1DEB4D09AB}
 	EndGlobalSection
 EndGlobal
