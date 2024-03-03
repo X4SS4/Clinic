@@ -1,0 +1,32 @@
+@model IEnumerable<Doctor>;
+@{
+    ViewData["Title"] = "Doctor List";
+}
+
+<h2>Doctors</h2>
+<div>
+    @foreach (var doctor in Model)
+    {
+        <form method="get" asp-controller="Patient" asp-action="ShowPatientsByDoctor">
+            <input type="hidden" name="doctorFIN" value="@doctor.FIN" />
+            <button type="submit" class="nav-link text-dark"
+                style="border: none; background-color: transparent; cursor: pointer;">Show Patients</button>
+            <div class="card mb-4">
+                <div class="card-header">
+                    @doctor.Firstname
+                </div>
+                <div class="card-header">
+                    @doctor.Lastname
+                </div>
+                <div class="card-header">
+                    @doctor.MedicalDepartment
+                </div>
+            </div>
+        </form>
+    }
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

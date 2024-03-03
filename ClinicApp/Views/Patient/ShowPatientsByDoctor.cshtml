@@ -1,0 +1,27 @@
+@model ViewModelPatientsByDoctor;
+@{
+    ViewData["Title"] = "Doctor`s patients";
+}
+
+
+<h2>Dr. @Model.doctor.Firstname @Model.doctor.Lastname `s patients</h2>
+<div>
+    @foreach (var patient in Model.patients)
+    {
+        <form method="get" asp-controller="Patient" asp-action="ShowPatientsByDoctor">
+            <input type="hidden" name="doctor" value="@patient.FIN" />
+            <div class="card mb-4">
+                <div class="card-header">
+                    @patient.Firstname
+                </div>
+                <div class="card-header">
+                    @patient.Lastname
+                </div>
+                <div class="card-header">
+                    @patient.Email
+                </div>
+            </div>
+        </form>
+    }
+</div>
+

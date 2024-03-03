@@ -1,0 +1,28 @@
+@model IEnumerable<Doctor>;
+@{
+    ViewData["Title"] = "Registration to doctor";
+}
+
+
+<h2>Doctors</h2>
+<div>
+    @foreach (var doctor in Model)
+    {
+        <form method="post" asp-controller="Patient" asp-action="CreatePatient">
+            <input type="hidden" name="doctor" value="@JsonConvert.SerializeObject(doctor)" />
+            <button type="submit" class="nav-link text-dark"
+                style="border: none; background-color: transparent; cursor: pointer;">Registration</button>
+            <div class="card mb-4">
+                <div class="card-header">
+                    @doctor.Firstname
+                </div>
+                <div class="card-header">
+                    @doctor.Lastname
+                </div>
+                <div class="card-header">
+                    @doctor.MedicalDepartment
+                </div>
+            </div>
+        </form>
+    }
+</div>
