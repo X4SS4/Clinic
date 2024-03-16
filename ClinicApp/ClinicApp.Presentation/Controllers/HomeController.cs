@@ -1,19 +1,19 @@
 ﻿namespace ClinicApp.Presentation.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
-using ClinicApp.Core.DTO.MedicalEmployee;
 using Microsoft.AspNetCore.Identity;
-using ClinicApp.Core.Models.ClinicEntities.MedicalEmployee;
+using ClinicApp.Core.Employees.Entities;
+using ClinicApp.Core.Employees.DTO;
 
 public class HomeController : Controller
 {
-    private readonly UserManager<MedicalEmployee> userManager;
+    private readonly UserManager<Employee> userManager;
     private readonly RoleManager<IdentityRole<int>> roleManager;
-    private readonly SignInManager<MedicalEmployee> signInManager;
+    private readonly SignInManager<Employee> signInManager;
     public HomeController(
-        UserManager<MedicalEmployee> userManager,
+        UserManager<Employee> userManager,
         RoleManager<IdentityRole<int>> roleManager,
-        SignInManager<MedicalEmployee> signInManager)
+        SignInManager<Employee> signInManager)
     {
         this.userManager = userManager;
         this.roleManager = roleManager;
@@ -34,11 +34,11 @@ public class HomeController : Controller
 
     public IActionResult Login()
     {
-        return View(model: new MedicalEmployeeLogintDTO());
+        return View(model: new EmployeeLogintDTO());
     }
 
     [HttpPost]
-    public async Task<IActionResult> Login(MedicalEmployeeLogintDTO medicalEmployeeLogingDTO)
+    public async Task<IActionResult> Login(EmployeeLogintDTO medicalEmployeeLogingDTO)
     {
         if (ModelState.IsValid)
         {

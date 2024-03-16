@@ -2,11 +2,9 @@ namespace ClinicApp.Presentation.Middlewares;
 
 using System.Security.Claims;
 using Microsoft.Extensions.Options;
-using ClinicApp.Core.Models.ManageTools;
 using Microsoft.AspNetCore.Http.Extensions;
-using ClinicApp.Core.Models.LoggingEntities.LogRecord;
-using ClinicApp.Infrastructure.Repositories.Logging.Base;
-
+using ClinicApp.Infrastructure.Logging.Repositories.Base;
+using ClinicApp.Core.Logging.Entities;
 
 public class LoggingMiddleware : IMiddleware
 {

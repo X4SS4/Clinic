@@ -2,15 +2,13 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using ClinicApp.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
-using ClinicApp.Core.Models.ManageTools;
 using ClinicApp.Presentation.Middlewares;
-using ClinicApp.Infrastructure.Repositories.Doctor;
-using ClinicApp.Infrastructure.Repositories.Logging;
-using ClinicApp.Infrastructure.Repositories.Patient;
-using ClinicApp.Infrastructure.Repositories.Doctor.Base;
-using ClinicApp.Infrastructure.Repositories.Logging.Base;
-using ClinicApp.Infrastructure.Repositories.Patient.Base;
-using ClinicApp.Core.Models.ClinicEntities.MedicalEmployee;
+using ClinicApp.Core.Employees.Entities;
+using ClinicApp.Core.Logging.Entities;
+using ClinicApp.Infrastructure.Patients.Repositories.Base;
+using ClinicApp.Infrastructure.Patients.Repositories;
+using ClinicApp.Infrastructure.Logging.Repositories.Base;
+using ClinicApp.Infrastructure.Logging.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +29,7 @@ builder.Services.AddDbContext<ClinicAppDbContext>(options =>
     });
 });
 
-builder.Services.AddIdentity<MedicalEmployee, IdentityRole<int>>(options =>
+builder.Services.AddIdentity<Employee, IdentityRole<int>>(options =>
 {
     options.Password.RequiredLength = 8;
     options.Password.RequiredUniqueChars = 5;
@@ -46,7 +44,6 @@ builder.Services.Configure<LoggerSwitch>(builder.Configuration.GetSection("Logge
 
 builder.Services.AddScoped<HttpClient>();
 builder.Services.AddScoped<ClinicAppDbContext>();
-builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<ILogRecordRepository, LogRecordRepository>();
 

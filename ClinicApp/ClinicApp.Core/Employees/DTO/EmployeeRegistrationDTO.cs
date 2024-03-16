@@ -1,10 +1,10 @@
-namespace ClinicApp.Core.DTO.MedicalEmployee;
+namespace ClinicApp.Core.Employees.DTO;
 
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 
-public class MedicalEmployeeRegistrationDTO
+public class EmployeeRegistrationDTO
 {
     [EmailAddress]
     [Required(ErrorMessage = "Email cannot be empty")]

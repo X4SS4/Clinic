@@ -3,7 +3,7 @@ namespace ClinicApp.Core.Employees.DTO;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-public class MedicalEmployeeLogintDTO
+public class EmployeeLogintDTO
 {
     [EmailAddress]
     [Required(ErrorMessage = "Email cannot be empty")]
