@@ -1,4 +1,4 @@
-namespace ClinicApp.Core.Models.ClinicEntities.Doctor;
+namespace ClinicApp.Core.Employees.Enums;
 
 public enum MedicalDepartmentsEnum
 {

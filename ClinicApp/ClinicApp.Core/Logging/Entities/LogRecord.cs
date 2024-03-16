@@ -1,4 +1,4 @@
-﻿namespace ClinicApp.Core.Models.LoggingEntities.LogRecord;
+namespace ClinicApp.Core.Logging.Entities;
 
 public class LogRecord
 {

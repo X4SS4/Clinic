@@ -1,7 +1,6 @@
 ﻿namespace ClinicApp.Infrastructure.Repositories.Patient;
 
 using ClinicApp.Infrastructure.Data;
-using ClinicApp.Core.Models.ClinicEntities.Doctor;
 using ClinicApp.Core.Models.ClinicEntities.Patient;
 using ClinicApp.Infrastructure.Repositories.Patient.Base;
 using System.Threading.Tasks;
@@ -21,8 +20,9 @@ public class PatientRepository : IPatientRepository
         return await _context.Patients.FirstOrDefaultAsync(patient => patient.FIN == patientFIN);
     }
 
-    public async Task<IEnumerable<Patient>> GetPatientsByDoctor(Doctor doctor)
+    public async Task<IEnumerable<Patient>> GetPatientsByDoctor(string doctorFIN)
     {
+        var doctor = await _context.Doctors.FirstOrDefaultAsync(doctor => doctor.FIN == doctorFIN);
         var patientIds = await _context.DoctorPatients
                                         .Where(dp => dp.DoctorId == doctor.Id)
                                         .Select(dp => dp.PatientId)
@@ -38,8 +38,10 @@ public class PatientRepository : IPatientRepository
         return await _context.Patients.ToListAsync();
     }
 
-    public async Task AddPatient(Patient patient)
+    public async Task<Patient> AddPatient(Patient patient)
     {
-        await _context.Patients.AddAsync(patient);
+        var addedPatient = await _context.Patients.AddAsync(patient);
+        await _context.SaveChangesAsync();
+        return addedPatient.Entity;
     }
 }

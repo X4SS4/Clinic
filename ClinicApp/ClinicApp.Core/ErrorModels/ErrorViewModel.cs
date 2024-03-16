@@ -1,4 +1,4 @@
-namespace ClinicApp.Core.Models;
+namespace ClinicApp.Core.ErrorModels;
 
 public class ErrorViewModel
 {
