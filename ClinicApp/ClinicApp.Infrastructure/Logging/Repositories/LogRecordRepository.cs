@@ -1,9 +1,9 @@
-namespace ClinicApp.Infrastructure.Repositories.Logging;
+namespace ClinicApp.Infrastructure.Logging.Repositories;
 
 using System.Threading.Tasks;
 using ClinicApp.Infrastructure.Data;
 using ClinicApp.Core.Logging.Entities;
-using ClinicApp.Infrastructure.Repositories.Logging.Base;
+using ClinicApp.Infrastructure.Logging.Repositories.Base;
 
 public class LogRecordRepository : ILogRecordRepository
 {

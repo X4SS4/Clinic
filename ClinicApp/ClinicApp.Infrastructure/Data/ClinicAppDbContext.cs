@@ -9,9 +9,11 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 public class ClinicAppDbContext : IdentityDbContext<Employee, IdentityRole<int>, int>
 {
-    public DbSet<Employee> Employees { get; set; }
     public DbSet<Patient> Patients { get; set; }
+    public DbSet<PatientCard> PatientsCards { get; set; }
+    public DbSet<DiseaseRecord> DiseaseRecords { get; set; }
+    public DbSet<Employee> Employees { get; set; }
     public DbSet<LogRecord> LogRecords { get; set; }
-    public DbSet<EmployeePatient> DoctorPatients { get; set; }
+    public DbSet<EmployeePatient> EmployeePatients { get; set; }
     public ClinicAppDbContext(DbContextOptions<ClinicAppDbContext> options) : base(options) { }
 }

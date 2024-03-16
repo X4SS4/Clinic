@@ -1,4 +1,4 @@
-namespace ClinicApp.Infrastructure.Repositories.Logging.Base;
+namespace ClinicApp.Infrastructure.Logging.Repositories.Base;
 
 using ClinicApp.Core.Logging.Entities;
 
