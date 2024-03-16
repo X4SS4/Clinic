@@ -1,4 +1,4 @@
-namespace ClinicApp.Core.DTO.Patient;
+namespace ClinicApp.Core.Patients.DTO;
 
 public class PatientDTO
 {
