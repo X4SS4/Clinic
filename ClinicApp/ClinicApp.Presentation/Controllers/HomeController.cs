@@ -2,9 +2,6 @@
 
 using Microsoft.AspNetCore.Mvc;
 using ClinicApp.Core.DTO.MedicalEmployee;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using ClinicApp.Core.Models.ClinicEntities.MedicalEmployee;
 
@@ -43,11 +40,20 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> Login(MedicalEmployeeLogintDTO medicalEmployeeLogingDTO)
     {
-        if (ModelState.IsValid == false) return View();
-        var medicalEmployee = await userManager.FindByEmailAsync(medicalEmployeeLogingDTO.Email);
-        if (medicalEmployee is null) { return RedirectToAction("Index", "Home"); }
-        var result = await signInManager.PasswordSignInAsync(medicalEmployee, medicalEmployeeLogingDTO.Password, true, true);
-        if (result.Succeeded == false) return View();
-        return RedirectToAction("Index", "Home");
+        if (ModelState.IsValid)
+        {
+            var result = await signInManager.PasswordSignInAsync(medicalEmployeeLogingDTO.Email, medicalEmployeeLogingDTO.Password, isPersistent: false, lockoutOnFailure: false);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return View(medicalEmployeeLogingDTO);
+            }
+        }
+        return View(medicalEmployeeLogingDTO);
     }
 }

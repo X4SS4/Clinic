@@ -1,8 +1,8 @@
 ﻿@inject IAuthorizationService authorizationService
 
 @{
-    var isAdmin = authorizationService.AuthorizeAsync(User, "Admins").Result.Succeeded;
     var isAuthenticated = User.Identity.IsAuthenticated;
+    var isAdmin = User.IsInRole("Admin");
 }
 
 
@@ -35,7 +35,8 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login">Login</a>
                             </li>
                         }
-                        @if(isAdmin){
+                        @if (isAdmin)
+                        {
                             <li class="nav-item" >
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Registration"
                                     asp-action="RegistrationEmployee">Registration new employee</a>

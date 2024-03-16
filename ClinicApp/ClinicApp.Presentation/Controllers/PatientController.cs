@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using ClinicApp.Core.Models.ClinicEntities.Doctor;
 using ClinicApp.Infrastructure.Repositories.Doctor.Base;
 using ClinicApp.Infrastructure.Repositories.Patient.Base;
+using ClinicApp.Core.DTO.Doctor;
 
 public class PatientController : Controller
 {
@@ -20,8 +21,17 @@ public class PatientController : Controller
     [HttpPost]
     public IActionResult CreatePatient([FromForm(Name = "doctor")] string doctorJson)
     {
-        var doctorTO = JsonConvert.DeserializeObject<Doctor>(doctorJson);
-        var viewModelDoctorPatient = new ViewModelDoctorPatient() { doctor = doctorTO ?? new Doctor() };
+        var doctorTo = JsonConvert.DeserializeObject<Doctor>(doctorJson);
+        var viewModelDoctorPatient = new ViewModelDoctorPatient()
+        {
+            doctor = new DoctorDTO
+            {
+                FIN = doctorTo.FIN,
+                Firstname = doctorTo.Firstname,
+                Lastname = doctorTo.Lastname,
+                MedicalDepartment = doctorTo.MedicalDepartment
+            }
+        };
         return View(model: viewModelDoctorPatient);
     }
 
@@ -37,9 +47,11 @@ public class PatientController : Controller
     {
         var patients = await patientRepository.GetPatientsByDoctor(doctorFIN);
         var doctor = await doctorRepository.GetDoctorByFIN(doctorFIN);
-        var viewModelPatientsByDoctor = new ViewModelPatientsByDoctor();
-        viewModelPatientsByDoctor.doctor = doctor;
-        viewModelPatientsByDoctor.patients = patients;
+        var viewModelPatientsByDoctor = new ViewModelPatientsByDoctor
+        {
+            doctor = doctor,
+            patients = patients
+        };
         return View(model: viewModelPatientsByDoctor);
     }
 }

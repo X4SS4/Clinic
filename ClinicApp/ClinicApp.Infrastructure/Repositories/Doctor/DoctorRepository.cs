@@ -21,10 +21,10 @@ public class DoctorRepository : IDoctorRepository
         var doctors = await _context.Doctors.Where(doctor => doctor.MedicalDepartment == (MedicalDepartmentsEnum)medicalDepartment).ToListAsync();
         return doctors;
     }
-    public Task<Doctor> GetDoctorByFIN(string? doctorFIN)
+    public async Task<Doctor?> GetDoctorByFIN(string? doctorFIN)
     {
         var doctor = _context.Doctors.FirstOrDefaultAsync(doctor => doctor.FIN == doctorFIN);
-        return doctor;
+        return await doctor;
     }
     public async Task AddPatientToDoctor(int doctorId, int patientId)
     {
@@ -34,6 +34,7 @@ public class DoctorRepository : IDoctorRepository
             DoctorId = doctorId
         };
         _ = await _context.DoctorPatients.AddAsync(doctorPatient);
+        await _context.SaveChangesAsync();
     }
     public async Task<IEnumerable<Doctor>> GetAllDoctors()
     {

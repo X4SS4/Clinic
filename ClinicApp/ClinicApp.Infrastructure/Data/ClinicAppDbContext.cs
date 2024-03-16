@@ -2,21 +2,16 @@ namespace ClinicApp.Infrastructure.Data;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using ClinicApp.Core.Models.ClinicEntities.Doctor;
-using ClinicApp.Core.Models.ClinicEntities.Patient;
-using ClinicApp.Core.Models.LoggingEntities.LogRecord;
+using ClinicApp.Core.Logging.Entities;
+using ClinicApp.Core.Patients.Entities;
+using ClinicApp.Core.Employees.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using ClinicApp.Core.Models.ClinicEntities.DoctorPatient;
-using ClinicApp.Core.Models.ClinicEntities.MedicalEmployee;
 
-public class ClinicAppDbContext : IdentityDbContext<MedicalEmployee, IdentityRole<int>, int>
+public class ClinicAppDbContext : IdentityDbContext<Employee, IdentityRole<int>, int>
 {
-    public DbSet<MedicalEmployee> Employees { get; set; }
-    public DbSet<Doctor> Doctors { get; set; }
+    public DbSet<Employee> Employees { get; set; }
     public DbSet<Patient> Patients { get; set; }
     public DbSet<LogRecord> LogRecords { get; set; }
-
-    public DbSet<DoctorPatient> DoctorPatients { get; set; }
-
+    public DbSet<EmployeePatient> DoctorPatients { get; set; }
     public ClinicAppDbContext(DbContextOptions<ClinicAppDbContext> options) : base(options) { }
 }
