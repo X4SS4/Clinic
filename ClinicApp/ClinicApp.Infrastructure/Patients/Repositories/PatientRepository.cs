@@ -30,7 +30,7 @@ public class PatientRepository : IPatientRepository
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Patient>> GetPatientsByDoctor(string doctorFIN)
+    public Task<IEnumerable<Patient>> GetPatientsByDoctor(int doctorId)
     {
         throw new NotImplementedException();
     }

@@ -38,11 +38,11 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Login(EmployeeLogintDTO medicalEmployeeLogingDTO)
+    public async Task<IActionResult> Login(EmployeeLogintDTO employeeLogingDTO)
     {
         if (ModelState.IsValid)
         {
-            var result = await signInManager.PasswordSignInAsync(medicalEmployeeLogingDTO.Email, medicalEmployeeLogingDTO.Password, isPersistent: false, lockoutOnFailure: false);
+            var result = await signInManager.PasswordSignInAsync(employeeLogingDTO.Email, employeeLogingDTO.Password, isPersistent: false, lockoutOnFailure: false);
 
             if (result.Succeeded)
             {
@@ -51,9 +51,9 @@ public class HomeController : Controller
             else
             {
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                return View(medicalEmployeeLogingDTO);
+                return View(employeeLogingDTO);
             }
         }
-        return View(medicalEmployeeLogingDTO);
+        return View(employeeLogingDTO);
     }
 }

@@ -12,7 +12,6 @@ using ClinicApp.Infrastructure.Logging.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ClinicAppDbContext>(options =>
@@ -34,7 +33,7 @@ builder.Services.AddIdentity<Employee, IdentityRole<int>>(options =>
     options.Password.RequiredLength = 8;
     options.Password.RequiredUniqueChars = 5;
     options.Password.RequireNonAlphanumeric = false;
-    options.Lockout.AllowedForNewUsers = false; //admin aprove need in future!!!
+    options.Lockout.AllowedForNewUsers = false;
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromSeconds(60);
     options.User.RequireUniqueEmail = true;
 })

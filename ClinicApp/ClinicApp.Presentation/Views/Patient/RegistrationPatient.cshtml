@@ -1,4 +1,5 @@
-﻿﻿@{
+﻿﻿@model string
+@{
     ViewData["Title"] = "Registration";
 }
 
@@ -8,14 +9,17 @@
     <h2>Service list</h2>
     <form method="get" asp-controller="Doctor" asp-action="ShowDoctorByMedicalDepartment">
         <input type="hidden" name="medicalDepartment" value=1 />
+        <input type="hidden" name="patientFIN" value="@Model" />
         <button type="submit" class="nav-link text-dark" style="border: none; background-color: transparent; cursor: pointer;">Dentistry</button>
     </form>
     <form method="get" asp-controller="Doctor" asp-action="ShowDoctorByMedicalDepartment">
         <input type="hidden" name="medicalDepartment" value=2 />
+        <input type="hidden" name="patientFIN" value="@Model" />
         <button type="submit" class="nav-link text-dark" style="border: none; background-color: transparent; cursor: pointer;">Therapy</button>
     </form>
     <form method="get" asp-controller="Doctor"  asp-action=ShowDoctorByMedicalDepartment>
         <input type="hidden" name="medicalDepartment" value=3 />
+        <input type="hidden" name="patientFIN" value="@Model" />
         <button type="submit" class="nav-link text-dark" style="border: none; background-color: transparent; cursor: pointer;">Surgery</button>
     </form>
 </section>

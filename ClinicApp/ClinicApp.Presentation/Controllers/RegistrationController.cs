@@ -27,19 +27,7 @@ public class RegistrationController : Controller
         this.signInManager = signInManager;
     }
 
-    [HttpGet]
-    public IActionResult RegistrationPatient()
-    {
-        return View();
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> RegistrationPatient([FromForm] Employee doctor, [FromForm] Patient patient)
-    {
-        string url = $@"/Registration/Receipt?doctorFIN={doctor.FIN}&patientFIN={patient.FIN}";
-        string script = $@"<script> window.open('{url}', '_blank'); window.location.href = '/Home/Index'; </script>";
-        return Content(script, "text/html");
-    }
+    
 
     [HttpGet]
     public IActionResult RegistrationEmployee()

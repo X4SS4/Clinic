@@ -1,4 +1,4 @@
-@model IEnumerable<Doctor>;
+@model PatientRegeistrationViewModel;
 @{
     ViewData["Title"] = "Registration to doctor";
 }
@@ -6,10 +6,11 @@
 
 <h2>Doctors</h2>
 <div>
-    @foreach (var doctor in Model)
+    @foreach (var doctor in Model.Employees)
     {
-        <form method="post" asp-controller="Patient" asp-action="CreatePatient">
-            <input type="hidden" name="doctor" value="@JsonConvert.SerializeObject(doctor)" />
+        <form method="post" asp-controller="Registration" asp-action="RegistrationPatient">
+        <input type="hidden" name="doctorId" value="@doctor.Id" />
+        <input type="hidden" name="patientId" value="@Model.Patient.FIN" />
             <button type="submit" class="nav-link text-dark"
                 style="border: none; background-color: transparent; cursor: pointer;">Registration</button>
             <div class="card mb-4">
