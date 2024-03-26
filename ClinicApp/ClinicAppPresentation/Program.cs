@@ -1,15 +1,24 @@
+using ClinicAppCore.Logging.Entities;
+using ClinicAppPresentation.Middlewares;
+using ClinicAppCore.Logging.Repositories;
+using ClinicAppInfrastructure.Logging.Repositories;
+using ClinicAppInfrastructure.DependecyInjections;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.InitIdentity();
+builder.Services.InitDbContext(builder.Configuration, System.Reflection.Assembly.GetExecutingAssembly());
+builder.Services.Configure<LoggerSwitch>(builder.Configuration.GetSection("LoggerSwitch"));
+builder.Services.AddScoped<ILogRecordRepository, LogRecordRepository>();
+builder.Services.AddTransient<LoggingMiddleware>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
