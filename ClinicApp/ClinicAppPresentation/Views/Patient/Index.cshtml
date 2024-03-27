@@ -1,0 +1,79 @@
+@model IEnumerable<Patient>
+@{
+    ViewData["Title"] = "Patients";
+}
+
+<div class="patients-container">
+    <h1>Patient List</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ФИО</th>
+                <th>Дата рождения</th>
+                <th>Дата регистрации</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var patient in Model)
+            {
+                <tr>
+                    <td>@patient.Firstname</td>
+                    <td>@patient.Lastname</td>
+                    <td>@patient.FIN</td>
+                    <td>@patient.Email</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="@Url.Action("Discharge", "Patient", new { id = patient.Id })" class="btn btn-sm btn-danger" data-method="delete">Discharge</a>
+                            <a href="@Url.Action("Edit", "Patient", new { id = patient.Id })" class="btn btn-sm btn-primary" data-method="put">Edit</a>
+                            <a href="@Url.Action("Registration", "Doctor", new { patientId = patient.Id })" class="btn btn-sm btn-info">Registration to doctor</a>
+                            <a href="@Url.Action("PatientCard", "Patient", new { id = patient.Id })" class="btn btn-sm btn-success" data-toggle="modal" data-target="#patientCardModal">Карта пациента</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="patientCardModal" tabindex="-1" role="dialog" aria-labelledby="patientCardModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="patientCardModalLabel">Карта пациента</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @* ... *@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Загрузка содержимого карты пациента в модальное окно
+            $('#patientCardModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); // Кнопка, которая открыла модальное окно
+                var patientId = button.data('patient-id'); // ID пациента
+
+                // Загрузка содержимого карты пациента
+                $.ajax({
+                    url: '@Url.Action("PatientCard", "Patient")',
+                    data: { id: patientId },
+                    success: function (response) {
+                        // Отображение содержимого в модальном окне
+                        $('#patientCardModal .modal-body').html(response);
+                    }
+                });
+            });
+        });
+    </script>
+}
