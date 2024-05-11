@@ -1,9 +1,13 @@
-﻿@using ClinicApp;
-@using ClinicApp.Core.Models;
-@using ClinicApp.Core.DTO;
+﻿@using ClinicApp.Core.DTO.MedicalEmployee;
+@using ClinicApp.Core.Models.ClinicEntities.MedicalEmployee;
+@using ClinicApp.Core.DTO.Doctor;
+@using ClinicApp.Core.DTO.Patient;
 @using ClinicApp.Core.Models.ClinicEntities.Doctor;
-@using ClinicApp.Core.Models.ClinicEntities.MedicalReceptionist;    
 @using ClinicApp.Core.Models.ClinicEntities.Patient;
-@using ClinicApp.Core.ViewModels;
+@using ClinicApp;
 @using Newtonsoft.Json;
+@using ClinicApp.Core.Models;
+@using System.Security.Claims;
+@using ClinicApp.Core.ViewModels;
+@using Microsoft.AspNetCore.Authorization;
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

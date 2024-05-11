@@ -8,7 +8,7 @@ CREATE TABLE Doctors (
     MedicalDepartment NVARCHAR(MAX),
 	CONSTRAINT DK_FIN UNIQUE(FIN)
 );
-CREATE TABLE [MedicalReceptionists] (
+CREATE TABLE [MedicalEmployees] (
     [Id] int PRIMARY KEY identity,
     [Email] nvarchar(max),
     [Name] nvarchar(max),
@@ -106,18 +106,19 @@ insert into Patients (FIN, Firstname, Lastname, Email) values ('JHS6S4B', 'Carro
 insert into Patients (FIN, Firstname, Lastname, Email) values ('QXLM6W3', 'Abner', 'Mc Mechan', 'amcmechan1m@theglobeandmail.com');
 insert into Patients (FIN, Firstname, Lastname, Email) values ('VDTJYP5', 'Cary', 'Routley', 'croutley1n@house.gov');
 SELECT * FROM Patients;
-CREATE TABLE [MedicalReceptionists] (
+CREATE TABLE [MedicalEmployees] (
     [Id] int PRIMARY KEY identity,
     [Email] NVARCHAR(MAX),
     [Firstname] NVARCHAR(MAX),
     [Lastname] NVARCHAR(MAX),
-    [Password] NVARCHAR(MAX)
+    [Password] NVARCHAR(MAX),
+    [Role] INT
 )
-insert into [MedicalReceptionists]([Email], [Firstname], [Lastname], [Password])
-values('xas.zab.kam@gmail.com', 'Zabil', 'Khasayli', 'qwerty123')
+INSERT INTO [MedicalEmployees]([Email], [Firstname], [Lastname], [Password], [Role])
+VALUES ('xas.zab.kam@gmail.com', 'Zabil', 'Khasayli', 'qwerty123', 1)
 CREATE TABLE [LogRecords] (
     [Id] INT PRIMARY KEY identity ,
-    [MedicalReceptionistId] INT,
+    [MedicalEmployeeId] INT,
     [Url] NVARCHAR(MAX),
     [MethodType] NVARCHAR(MAX),
     [StatusCode] INT,

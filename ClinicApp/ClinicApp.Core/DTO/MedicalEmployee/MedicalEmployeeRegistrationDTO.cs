@@ -1,8 +1,7 @@
-namespace ClinicApp.Core.Models.ClinicEntities.MedicalReceptionist;
+namespace ClinicApp.Core.DTO.MedicalEmployee;
 
-public class MedicalReceptionist
+public class MedicalEmployeeRegistrationDTO
 {
-    public int Id { get; set; }
     public string? Email { get; set; }
     public string? Firstname { get; set; }
     public string? Lastname { get; set; }

@@ -1,6 +1,6 @@
-namespace ClinicApp.Core.DTO;
+namespace ClinicApp.Core.DTO.MedicalEmployee;
 
-public class MedicalReceptionisLogintDTO
+public class MedicalEmployeeLogintDTO
 {
     public string? Email { get; set; }
     public string? Password { get; set; }

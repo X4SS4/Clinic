@@ -1,9 +1,8 @@
-﻿@using Microsoft.AspNetCore.Http
-@inject IHttpContextAccessor HttpContextAccessor
+﻿@inject IAuthorizationService authorizationService
 
 @{
-    var isLoggedIn = HttpContextAccessor?.HttpContext?.Request.Cookies["MedicalReceptionId"] is not null ? "hidden" : "";
-    var isLoggedOut = HttpContextAccessor?.HttpContext?.Request.Cookies["MedicalReceptionId"] is null ? "hidden" : "";
+    var isAdmin = authorizationService.AuthorizeAsync(User, "Admins").Result.Succeeded;
+    var isAuthenticated = User.Identity.IsAuthenticated;
 }
 
 
@@ -31,26 +30,35 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item" @isLoggedIn>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home"
-                                asp-action="Login">Login</a>
-                        </li>
-                        <li class="nav-item" @isLoggedOut>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Registration"
-                                asp-action="Index">Registration</a>
-                        </li>
-                        <li class="nav-item" @isLoggedOut>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Patient"
-                                asp-action="ShowAllPatients">Patients</a>
-                        </li>
-                        <li class="nav-item" @isLoggedOut>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Doctor"
-                                asp-action="ShowAllDoctors">Doctors</a>
-                        </li>
-                        <li class="nav-item" @isLoggedOut>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home"
-                                asp-action="Logout">Logout</a>
-                        </li>
+                        @if(!isAuthenticated){
+                            <li class="nav-item" >
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login">Login</a>
+                            </li>
+                        }
+                        @if(isAdmin){
+                            <li class="nav-item" >
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Registration"
+                                    asp-action="RegistrationEmployee">Registration new employee</a>
+                            </li>
+                        }
+                        @if(isAuthenticated){
+                            <li class="nav-item" >
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Registration"
+                                    asp-action="RegistrationPatient">Registration new patient</a>
+                            </li>
+                            <li class="nav-item" >
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Patient"
+                                    asp-action="ShowAllPatients">Patients</a>
+                            </li>
+                            <li class="nav-item" >
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Doctor"
+                                    asp-action="ShowAllDoctors">Doctors</a>
+                            </li>
+                            <li class="nav-item" >
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home"
+                                    asp-action="Logout">Logout</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
